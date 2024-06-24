@@ -1,3 +1,4 @@
+using Backend.Services;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 
@@ -11,6 +12,7 @@ namespace Backend
 
 			// Add services to the container.
 			builder.Services.AddControllers();
+			builder.Services.AddScoped<IWeatherForecastService, WeatherForecastService>();
 
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 			builder.Services.AddEndpointsApiExplorer();

@@ -66,6 +66,7 @@ namespace Backend.Controllers
 				if (houseSizeExissts)
 				{
 					//TODO: add functionality
+					//also check that authorization header has a valid api key
 				return Ok();
 				}
 				else

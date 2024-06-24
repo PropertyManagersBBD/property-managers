@@ -26,6 +26,7 @@ namespace Backend.Controllers
         /// </summary>
         /// <returns>An array of weather forecasts.</returns>
         /// <remarks>
+        /// 
         /// Sample response:
         ///
         ///     GET /GetWeatherForecast

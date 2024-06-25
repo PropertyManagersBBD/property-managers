@@ -22,23 +22,49 @@ namespace Backend.Controllers
 		}
 
 		/// <summary>
-		/// Summary
+		/// Used to create 50 new properties
 		/// </summary>
-		/// <returns>---------</returns>
+		/// <returns>Confirmation on amount created</returns>
 		/// <remarks>
 		/// 
-		/// Remarks go here
+		/// This is meant for the initial propery spawn
 		///
 		/// </remarks>
 		/// <response code="200"> Good </response>
 		/// <response code="400"> Bad </response>
-		[HttpPut(Name = "spawn")]
+		[HttpPut("spawn", Name = "spawn")]
 		public IActionResult SpawnProperties()
 		{
 			try
 			{
-				_propertyManagerService.SpawnProperties();
-				return Ok();
+				int numCreated = _propertyManagerService.SpawnProperties(50);
+				return Ok(numCreated + " properties were created");
+			}
+			catch(Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
+		}
+
+
+		/// <summary>
+		/// Used to create a variable amount of new properties
+		/// </summary>
+		/// <returns>Confirmation on amount created</returns>
+		/// <remarks>
+		/// 
+		/// This is meant to add new properties later on in the world
+		///
+		/// </remarks>
+		/// <response code="200"> Good </response>
+		/// <response code="400"> Bad </response>
+		[HttpPut("spawn/{num:int}", Name = "spawn_more")]
+		public IActionResult SpawnMoreProperties(int num)
+		{
+			try
+			{
+				int numCreated = _propertyManagerService.SpawnProperties(num);
+				return Ok(numCreated + " properties were created");
 			}
 			catch(Exception ex)
 			{

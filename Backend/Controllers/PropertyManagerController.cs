@@ -57,7 +57,7 @@ namespace Backend.Controllers
         /// </remarks>
         /// <response code="200"> Good: body is json that includes the property ID and the price of the property </response>
         /// <response code="400"> Bad: used if missing a query paramter or when there is an error with the request</response>
-        [HttpGet(Name = "Property")]
+        [HttpPost(Name = "Property")]
 		public IActionResult GetProperties()
 		{
 			try

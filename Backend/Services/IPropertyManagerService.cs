@@ -2,6 +2,6 @@
 {
 	public interface IPropertyManagerService
 	{
-		void SpawnProperties();
+		int SpawnProperties(int num);
 	}
 }

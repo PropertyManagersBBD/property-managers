@@ -61,6 +61,32 @@ namespace Backend.Controllers
 			}
 		}
 
+		/// <summary>
+		/// Used to set the new price of the property
+		/// </summary>
+		/// <returns>Nothing</returns>
+		/// <remarks>
+		/// 
+		/// This is meant for the initial propery spawn
+		/// One path variable is expected, which is the new price per unit of housing.
+		///
+		/// </remarks>
+		/// <response code="200"> The new price per unit was set </response>
+		/// <response code="400"> An error occurred, so the old price per unit was used </response>
+		[HttpPut("setPrice/{newPrice}", Name = "Set Price per housing unit")]
+		public IActionResult SetPrice(decimal newPrice)
+		{
+			try
+			{
+				_propertyManagerService.SetPrice(newPrice);
+				return Ok();
+			}
+			catch(Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
+		}
+
 
 		/// <summary>
 		/// Used to create a variable amount of new properties

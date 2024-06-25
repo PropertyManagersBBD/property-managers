@@ -6,6 +6,7 @@ namespace Backend.Services
 	public class PropertyManagerService : IPropertyManagerService
 	{
 		private readonly PropertyManagerContext _propertyManagerContext;
+		private decimal LatestPricePerUnit { get; set; }
 
 		public PropertyManagerService(PropertyManagerContext propertyManagerContext)
 		{
@@ -36,5 +37,12 @@ namespace Backend.Services
 			return result;
 		}
 
+		public void SetPrice(decimal newPrice)
+		{
+			if(newPrice < 0)
+				throw new Exception("Price of property must be greater than 0");
+
+			LatestPricePerUnit = newPrice;
+		}
 	}
 }

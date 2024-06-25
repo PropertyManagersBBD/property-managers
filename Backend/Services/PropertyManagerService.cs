@@ -6,7 +6,7 @@ namespace Backend.Services
 	public class PropertyManagerService : IPropertyManagerService
 	{
 		private readonly PropertyManagerContext _propertyManagerContext;
-		private decimal LatestPricePerUnit { get; set; }
+		private static decimal LatestPricePerUnit { get; set; }
 
 		public PropertyManagerService(PropertyManagerContext propertyManagerContext)
 		{

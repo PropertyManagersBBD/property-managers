@@ -32,7 +32,7 @@ namespace Backend.Controllers
 		/// </remarks>
 		/// <response code="200"> Good </response>
 		/// <response code="400"> Bad </response>
-		[HttpPut("spawn", Name = "spawn")]
+		[HttpPost("spawn", Name = "spawn")]
 		public IActionResult SpawnProperties()
 		{
 			try
@@ -58,7 +58,7 @@ namespace Backend.Controllers
 		/// </remarks>
 		/// <response code="200"> Good </response>
 		/// <response code="400"> Bad </response>
-		[HttpPut("spawn/{num:int}", Name = "spawn_more")]
+		[HttpPost("spawn/{num:int}", Name = "spawn_more")]
 		public IActionResult SpawnMoreProperties(int num)
 		{
 			try

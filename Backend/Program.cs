@@ -24,7 +24,7 @@ namespace Backend
 			builder.Services.AddControllers();
 
 			// Register the service(s)
-			builder.Services.AddScoped<IPropertyManagerService, PropertyManagerService>();
+			builder.Services.AddSingleton<IPropertyManagerService, PropertyManagerService>();
 
 			// Add the DB and connection string
 			var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");

@@ -6,5 +6,6 @@ namespace Backend.Services
 	{
 		int SpawnProperties(int num);
 		List<Property> GetTop5Properties();
+		void SetPrice(decimal newPrice);
 	}
 }

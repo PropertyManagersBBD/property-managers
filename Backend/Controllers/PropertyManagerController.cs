@@ -21,6 +21,21 @@ namespace Backend.Controllers
 			_propertyManagerService = propertyManagerService;
 		}
 
+
+		[HttpGet("test")]
+		public IActionResult GetProps()
+		{
+			try
+			{
+				var answer= _propertyManagerService.GetTop5Properties();
+				return Ok(answer);
+			}
+			catch(Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
+		}
+
 		/// <summary>
 		/// Used to create 50 new properties
 		/// </summary>

@@ -1,7 +1,10 @@
-﻿namespace Backend.Services
+﻿using Backend.DTOs;
+
+namespace Backend.Services
 {
 	public interface IPropertyManagerService
 	{
 		int SpawnProperties(int num);
+		List<Property> GetTop5Properties();
 	}
 }

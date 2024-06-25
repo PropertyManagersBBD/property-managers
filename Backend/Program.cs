@@ -1,4 +1,6 @@
+using Backend.Database.Context;
 using Backend.Services;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 
@@ -6,13 +8,28 @@ namespace Backend
 {
 	public class Program
 	{
+		private static readonly ILoggerFactory _loggerFactory = LoggerFactory.Create(builder =>
+		{
+			builder
+			.AddConsole()
+			.AddFilter((category, level) =>
+			category == DbLoggerCategory.Database.Command.Name && level >= LogLevel.Warning);
+		});
+
 		public static void Main(string[] args)
 		{
 			var builder = WebApplication.CreateBuilder(args);
 
 			// Add services to the container.
 			builder.Services.AddControllers();
+
+			// Register the service(s)
 			builder.Services.AddScoped<IPropertyManagerService, PropertyManagerService>();
+
+			// Add the DB and connection string
+			var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
+			builder.Services.AddDbContext<PropertyManagerContext>(options =>
+				options.UseLoggerFactory(_loggerFactory).UseSqlServer(connectionString));
 
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 			builder.Services.AddEndpointsApiExplorer();

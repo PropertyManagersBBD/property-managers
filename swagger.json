@@ -1,0 +1,140 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+      "title": "Property Manager API",
+      "description": "Documentation for the Property Manager API",
+      "version": "v1"
+    },
+    "paths": {
+      "/PropertyManager/initialize": {
+        "post": {
+          "tags": [
+            "ProperyManager"
+          ],
+          "summary": "Used to start the simulation, and creaste 5000 random properties",
+          "description": "This is meant for the initial propery spawn\r\nNo body is required\r\nRequires an authorization header",
+          "operationId": "initialize",
+          "responses": {
+            "200": {
+              "description": "Good"
+            },
+            "400": {
+              "description": "Bad"
+            }
+          }
+        }
+      },
+      "/PropertyManager/setPrice/{newPrice}": {
+        "put": {
+          "tags": [
+            "ProperyManager"
+          ],
+          "summary": "Used to set the new price of the property",
+          "description": "This is meant for the initial propery spawn\r\nOne path variable is expected, which is the new price per unit of housing.",
+          "operationId": "Set Price per housing unit",
+          "parameters": [
+            {
+              "name": "newPrice",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "number",
+                "format": "double"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "The new price per unit was set"
+            },
+            "400": {
+              "description": "An error occurred, so the old price per unit was used"
+            }
+          }
+        }
+      },
+      "/PropertyManager/property": {
+        "post": {
+          "tags": [
+            "ProperyManager"
+          ],
+          "summary": "Used to get an available property of a given size",
+          "description": "the body is strucutred as follows:\r\n{\r\nsize:int\r\nrenting:boolean\r\nsellerId:long -> also acts as the land lord ID\r\nbuyerId:long -> this also acts as the renter ID\r\n\r\n}",
+          "operationId": "Request_poperty",
+          "responses": {
+            "200": {
+              "description": "Good: body is json that includes the property ID and the price of the property"
+            },
+            "400": {
+              "description": "Bad: used if missing a query paramter or when there is an error with the request"
+            }
+          }
+        }
+      },
+      "/PropertyManager/Owner/{propertyID}": {
+        "get": {
+          "tags": [
+            "ProperyManager"
+          ],
+          "summary": "Used to get the owner ID of a given property",
+          "description": "requires the poperty ID in the url",
+          "operationId": "Get_Owner",
+          "parameters": [
+            {
+              "name": "propertyID",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Good: body is json that includes the property ID and the price of the property"
+            },
+            "400": {
+              "description": "Bad: used if missing a query paramter or when there is an error with the request"
+            }
+          }
+        }
+      },
+      "/PropertyManager/sell": {
+        "post": {
+          "tags": [
+            "ProperyManager"
+          ],
+          "summary": "Used to list a property on the market to be sold",
+          "description": "Body requres ownerID",
+          "operationId": "sell_property",
+          "responses": {
+            "200": {
+              "description": "Good: property is now listed on the market"
+            },
+            "400": {
+              "description": "Bad:failed to list property"
+            }
+          }
+        }
+      },
+      "/PropertyManager/rent": {
+        "post": {
+          "tags": [
+            "ProperyManager"
+          ],
+          "summary": "Used to list a property on the market to be rented",
+          "description": "Body requres ownerID",
+          "operationId": "rent_property",
+          "responses": {
+            "200": {
+              "description": "Good: property is now rentable"
+            },
+            "400": {
+              "description": "Bad:failed to list property"
+            }
+          }
+        }
+      }
+    },
+    "components": { }
+  }

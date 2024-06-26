@@ -1,6 +1,7 @@
 ﻿using Backend.DTOs;
 using Backend.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
 namespace Backend.Controllers
 {
@@ -98,21 +99,12 @@ namespace Backend.Controllers
         /// <response code="200"> Good: body is json that includes the property ID and the price of the property </response>
         /// <response code="400"> Bad: used if missing a query paramter or when there is an error with the request</response>
         [HttpPost("property",Name = "Request_poperty")]
-		public IActionResult GetProperties()
+		public IActionResult GetProperties([FromBody] RequestProperty requestProperty)
 		{
 			try
 			{
-				bool houseSizeExissts = HttpContext.Request.Query.ContainsKey("size");
-				if (houseSizeExissts)
-				{
-					//TODO: add functionality
-					//also check that authorization header has a valid api key
-				return Ok();
-				}
-				else
-				{
-					return BadRequest("Incorrect query params");
-				}
+				Debug.WriteLine(requestProperty.ToString());
+                return(Ok());
 			}catch(Exception ex)
 			{
 				return BadRequest(ex.Message);

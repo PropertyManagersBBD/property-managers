@@ -2,9 +2,18 @@
 {
     public class RequestProperty
     {
-        int size { get; set; }
-        bool renting { get; set; }
-        long sellerId { get; set; }
-        long buyerId { get; set; }
+        public int size { get; set; }
+    }
+
+    public class PropertyResponse
+    {
+        public decimal Price { get; set; }
+        public long PropertyId { get; set; }
+
+        public PropertyResponse(decimal price, long propertyId)
+        {
+            Price = price;
+            PropertyId = propertyId;
+        }
     }
 }

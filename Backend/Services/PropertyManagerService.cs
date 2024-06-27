@@ -1,5 +1,6 @@
 ﻿using Backend.Database.Context;
 using Backend.DTOs;
+using System.Diagnostics;
 
 namespace Backend.Services
 {
@@ -44,5 +45,25 @@ namespace Backend.Services
 
 			LatestPricePerUnit = newPrice;
 		}
+
+		public decimal GetPrice(int size)
+		{
+            return LatestPricePerUnit * size;
+		}
+
+		public long GetProperty(int size, bool ToRent)
+		{
+            long id = _propertyManagerContext.Properties
+                .Where(p => p.Capacity == size)
+                .Select(p => p.Id)
+                .AsEnumerable()
+                .DefaultIfEmpty(-1)
+                .FirstOrDefault();
+            //things left to do:
+            //1) set on hold to true
+            //2) extend the linq to only accept houses that are rentable/on sale
+            Debug.WriteLine(id);
+			return id;
+        }
 	}
 }

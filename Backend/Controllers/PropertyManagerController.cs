@@ -62,19 +62,39 @@ namespace Backend.Controllers
         /// body requires size
 		/// 
 		/// {
-		///		body:int
+		///		size:int
 		/// }
 		/// 
         /// </remarks>
         /// <response code="200"> Good </response>
         /// <response code="400"> Bad</response>
         [HttpPut("Property",Name = "RequestProperty")]
-		public IActionResult GetProperties()
-		{
+		public IActionResult GetProperties([FromBody] RequestProperty requestProperty)
+        {
 			try
 			{
-				Debug.WriteLine(requestProperty.ToString());
-                return(Ok());
+				Debug.WriteLine(requestProperty.size);
+
+                if (requestProperty.size > 0 && requestProperty.size <= 8) { 
+                decimal price= _propertyManagerService.GetPrice(requestProperty.size);
+
+                long propertyId=_propertyManagerService.GetProperty(requestProperty.size, false);
+
+                    if (propertyId == -1)
+                    {
+                        return BadRequest("No Property Is Available");
+                    }
+                    else
+                    {
+                        var response= new PropertyResponse(price, propertyId);
+                        return (Ok(response));
+                    }
+
+                }
+                else
+                {
+                    return BadRequest("Invalid Size");
+                }
 			}catch(Exception ex)
 			{
 				return BadRequest(ex.Message);

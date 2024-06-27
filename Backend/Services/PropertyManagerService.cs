@@ -1,5 +1,6 @@
 ﻿using Backend.Database.Context;
 using Backend.DTOs;
+using Microsoft.Identity.Client;
 
 namespace Backend.Services
 {
@@ -44,5 +45,21 @@ namespace Backend.Services
 
 			LatestPricePerUnit = newPrice;
 		}
+
+		public long GetPropertyOwner(long propertyId)
+		{
+			var dbResult = _propertyManagerContext.Properties.Where(p=>p.Id == propertyId).FirstOrDefault();
+			if(dbResult == null)
+				throw new Exception($"Property {propertyId} does not exist");
+
+			var ownerId = dbResult.OwnerId ?? -1; // If I leave this comment in the pr, ask em to remove it.
+			// The ownerId will be null if the property is not owned, in which case it will be -1. We can either return -1 or see the exception message
+
+			if (ownerId == -1)
+				throw new Exception($"Property {propertyId} does not have an owner");
+
+			return ownerId;
+		}
+		
 	}
 }

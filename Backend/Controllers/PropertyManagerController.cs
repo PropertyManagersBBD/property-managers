@@ -89,21 +89,32 @@ namespace Backend.Controllers
 			}
 		}
 
-        /// <summary>
-        /// Used to get the owner ID of a given property
-        /// </summary>
-        /// <returns>owner ID of the requested property</returns>
-        /// <remarks>
-        /// 
-        /// requires the poperty ID in the url
-        ///
-        /// </remarks>
-        /// <response code="200"> Good </response>
-        /// <response code="400"> Bad </response>
-        [HttpGet("Owner/{propertyID}", Name ="GetOwner")]
-		public IActionResult GetOwner()
+		/// <summary>
+		/// Used to get the owner ID of a given property
+		/// </summary>
+		/// <returns>owner ID of the requested property</returns>
+		/// <remarks>
+		/// 
+		/// requires the property ID in the url
+		///
+		/// </remarks>
+		/// <response code="200"> Will return the property owner's Id </response>
+		/// <response code="400"> 
+		/// Will either return:
+		/// "Property {propertyId} does not exist" OR
+		/// "Property {propertyId} does not have an owner"
+		/// </response>
+		[HttpGet("Owner/{propertyID}", Name ="GetOwner")]
+		public IActionResult GetOwner(long propertyID)
 		{
-			return(Ok());	
+            try
+            {
+                var owner = _propertyManagerService.GetPropertyOwner(propertyID);
+                return Ok(owner);
+            } catch(Exception ex)
+            {
+                return BadRequest($"{ex.Message}");
+            }
 		}
 
         /// <summary>

@@ -44,6 +44,10 @@ resource "aws_iam_role" "beanstalk_ec2" {
   path                 = "/"
 }
 
+data "aws_secretsmanager_secret_version" "propertymanager-db-details" {
+  secret_id = module.rds.db_instance_master_user_secret_arn
+}
+
 resource "aws_iam_instance_profile" "beanstalk_ec2" {
   name = "aws-elasticbeanstalk-ec2-profile"
   role = aws_iam_role.beanstalk_ec2.name
@@ -109,6 +113,11 @@ resource "aws_elastic_beanstalk_environment" "beanstalk_env" {
     namespace = "aws:elasticbeanstalk:managedactions"
     name      = "ManagedActionsEnabled"
     value     = "false"
+  }
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name      = "DB_CONNECTION_STRING"
+    value     = "Data Source=${module.rds.db_instance_address};Initial Catalog=PropertyManager;User ID=dbuser;Password=${jsondecode(data.aws_secretsmanager_secret_version.propertymanager-db-details.secret_string)["password"]};Connect Timeout=30;Encrypt=True;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False"
   }
 }
 

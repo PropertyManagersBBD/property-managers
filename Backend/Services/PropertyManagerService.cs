@@ -44,5 +44,15 @@ namespace Backend.Services
 
 			LatestPricePerUnit = newPrice;
 		}
+
+		public void ListForRent(long Id)
+		{
+
+		}
+
+		public void ListForSale(long Id)
+		{
+			
+		}
 	}
 }

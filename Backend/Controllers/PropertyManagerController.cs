@@ -4,6 +4,23 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Controllers
 {
+    public record RentPropertyRequest
+    (
+        long Id,
+        string ProjectName,
+        string Repo,
+        string Token,
+        bool PublicProject
+    );
+
+    public record SellPropertyRequest
+    (
+        int Id,
+        string ProjectName,
+        string Repo,
+        string Token,
+        bool PublicProject
+    );
 	/// <summary>
 	/// Property manager controller
 	/// </summary>
@@ -113,15 +130,23 @@ namespace Backend.Controllers
         /// <returns>200 or a 400</returns>
         /// <remarks>
         /// 
-        /// Body requres ownerID
+        /// Body requres the property ID
         ///
         /// </remarks>
         /// <response code="200"> Good </response>
         /// <response code="400"> Bad</response>
         [HttpPost("Sell", Name = "SellProperty")]
-        public IActionResult SellProperty()
+        public IActionResult SellProperty(int Id)
         {
-            return (Ok());
+            try
+			{
+                _propertyManagerService.ListForSale(Id);
+                return Ok("Proprty " + Id + " has been listed for sale");
+			}
+			catch(Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
         }
 
 
@@ -133,15 +158,23 @@ namespace Backend.Controllers
         /// <returns>200 or a 400</returns>
         /// <remarks>
         /// 
-        /// Body requres ownerID
+        /// Body requres the property ID
         ///
         /// </remarks>
         /// <response code="200"> Good </response>
         /// <response code="400"> Bad</response>
         [HttpPost("Rent", Name = "RentProperty")]
-        public IActionResult RentProperty()
+        public IActionResult RentProperty(int Id)
         {
-            return (Ok());
+            try
+			{
+                _propertyManagerService.ListForRent(Id);
+				return Ok("Proprty " + Id + " has been listed for rent");
+			}
+			catch(Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
         }
 
         /// <summary>

@@ -4,35 +4,18 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Controllers
 {
-    public record RentPropertyRequest
-    (
-        long Id,
-        string ProjectName,
-        string Repo,
-        string Token,
-        bool PublicProject
-    );
-
-    public record SellPropertyRequest
-    (
-        int Id,
-        string ProjectName,
-        string Repo,
-        string Token,
-        bool PublicProject
-    );
 	/// <summary>
 	/// Property manager controller
 	/// </summary>
 	[ApiController]
 	[Route("PropertyManager")]
-	public class ProperyManagerController : ControllerBase
+	public class PropertyManagerController : ControllerBase
 	{
 
-		private readonly ILogger<ProperyManagerController> _logger;
+		private readonly ILogger<PropertyManagerController> _logger;
 		private readonly IPropertyManagerService _propertyManagerService;
 
-		public ProperyManagerController(ILogger<ProperyManagerController> logger, IPropertyManagerService propertyManagerService)
+		public PropertyManagerController(ILogger<PropertyManagerController> logger, IPropertyManagerService propertyManagerService)
 		{
 			_logger = logger;
 			_propertyManagerService = propertyManagerService;

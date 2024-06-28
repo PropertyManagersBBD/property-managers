@@ -4,7 +4,7 @@ namespace Backend.Services
 {
 	public interface IPropertyManagerService
 	{
-		int SpawnProperties(int num);
+		void SpawnProperties();
 		List<Property> GetTop5Properties();
 		void SetPrice(decimal newPrice);
 		void ListForSale(long Id);

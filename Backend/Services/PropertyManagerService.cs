@@ -59,7 +59,8 @@ namespace Backend.Services
 
 		public decimal GetPrice(int size)
 		{
-		}
+            return LatestPricePerUnit * size;
+        }
 
 		public long GetProperty(int size, bool ToRent)
 		{

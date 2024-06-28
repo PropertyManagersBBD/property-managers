@@ -64,29 +64,40 @@ namespace Backend.Services
 
 		public long GetProperty(int size, bool ToRent)
 		{
-            long id = _propertyManagerContext.Properties
-                .Where(p => p.Capacity == size)
-                .Select(p => p.Id)
-                .AsEnumerable()
-                .DefaultIfEmpty(-1)
-                .FirstOrDefault();
-            //things left to do:
-            //1) set on hold to true
-            //2) extend the linq to only accept houses that are rentable/on sale
+			long id = 0;
+			if (ToRent)
+			{
+			id = _propertyManagerContext.Properties.Where(p => p.Capacity == size && p.ListedForRent==true && p.Pending==false).Select(p => p.Id).AsEnumerable().DefaultIfEmpty(-1).FirstOrDefault();
+
+			}
+			else
+			{
+
+            id = _propertyManagerContext.Properties.Where(p => p.Capacity == size && p.ListedForSale == true && p.Pending == false).Select(p => p.Id).AsEnumerable().DefaultIfEmpty(-1).FirstOrDefault();
+			}
+
+            var entitiy = _propertyManagerContext.Properties.FirstOrDefault(item => item.Id == id);
+
+			if(entitiy != null)
+			{
+				entitiy.Pending = true;
+                _propertyManagerContext.SaveChanges();
+            }
             Debug.WriteLine(id);
 			return id;
         }
-		public void ListForRent(long Id)
-		{
-        
-			if (entity != null)
-			{
-				entity.ListedForRent = true;
-				_propertyManagerContext.SaveChanges();
-			}
-		}
+        public void ListForRent(long Id)
+        {
+            var entity = _propertyManagerContext.Properties.FirstOrDefault(item => item.Id == Id);
 
-		public void ListForSale(long Id)
+            if (entity != null)
+            {
+                entity.ListedForRent = true;
+                _propertyManagerContext.SaveChanges();
+            }
+        }
+
+        public void ListForSale(long Id)
 		{
 			var entity = _propertyManagerContext.Properties.FirstOrDefault(item => item.Id == Id);
         

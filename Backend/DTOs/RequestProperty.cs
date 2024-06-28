@@ -3,6 +3,7 @@
     public class RequestProperty
     {
         public int size { get; set; }
+        public bool toRent {  get; set; }
     }
 
     public class PropertyResponse

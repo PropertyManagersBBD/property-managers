@@ -62,7 +62,8 @@ namespace Backend.Controllers
         /// body requires size
 		/// 
 		/// {
-		///		size:int
+		///		size:int,
+        ///		toRent: bool
 		/// }
 		/// 
         /// </remarks>
@@ -78,7 +79,7 @@ namespace Backend.Controllers
                 if (requestProperty.size > 0 && requestProperty.size <= 8) { 
                 decimal price= _propertyManagerService.GetPrice(requestProperty.size);
 
-                long propertyId=_propertyManagerService.GetProperty(requestProperty.size, false);
+                long propertyId=_propertyManagerService.GetProperty(requestProperty.size, requestProperty.toRent);
 
                     if (propertyId == -1)
                     {

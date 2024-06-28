@@ -15,6 +15,12 @@ public partial class Property
 
     public int Capacity { get; set; }
 
+    public bool ListedForRent { get; set; }
+
+    public bool ListedForSale { get; set; }
+
+    public bool Pending { get; set; }
+
     [InverseProperty("Property")]
     public virtual ICollection<Mortgage> Mortgages { get; set; } = new List<Mortgage>();
 

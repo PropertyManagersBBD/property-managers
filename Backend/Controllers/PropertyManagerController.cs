@@ -146,7 +146,23 @@ namespace Backend.Controllers
 			}
         }
 
-
+        /// <summary>
+        /// test end point to check if service is alive
+        /// </summary>
+        /// 
+        /// <returns>200 or a 500</returns>
+        /// <remarks>
+        /// 
+        /// 
+        ///
+        /// </remarks>
+        /// <response code="200"> Good </response>
+        /// <response code="400"> Bad</response>
+        [HttpGet("ping", Name="Ping")]
+        public IActionResult ping()
+        {
+            return (Ok("pong"));
+        }
 
         /// <summary>
         /// Used to list a property on the market to be rented

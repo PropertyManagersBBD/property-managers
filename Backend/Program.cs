@@ -1,8 +1,10 @@
 using Backend.Database.Context;
 using Backend.Services;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
+using System.Threading.RateLimiting;
 
 namespace Backend
 {
@@ -19,6 +21,17 @@ namespace Backend
 		public static void Main(string[] args)
 		{
 			var builder = WebApplication.CreateBuilder(args);
+
+			// Rate limiter. Will add requests to a queue
+			var rateLimitingPolicyName = "fixed";
+			builder.Services.AddRateLimiter(_ => _
+			.AddFixedWindowLimiter(policyName: rateLimitingPolicyName, options =>
+			{
+				options.PermitLimit = 20;
+				options.Window = TimeSpan.FromSeconds(1);
+				options.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+				options.QueueLimit = 50;
+			}));
 
 			// Add services to the container.
 			builder.Services.AddControllers();
@@ -60,6 +73,8 @@ namespace Backend
 			app.UseHttpsRedirection();
 
 			app.UseAuthorization();
+			app.UseRateLimiter();
+			app.MapControllers().RequireRateLimiting(rateLimitingPolicyName);
 
 			app.MapControllers();
 

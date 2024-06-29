@@ -9,8 +9,9 @@ namespace Backend.Services
 		void SetPrice(decimal newPrice);
         decimal GetPrice(int size);
         long GetProperty(int size, bool ToRent);
+		long GetPropertyOwner(long propertyId);
 		void ListForSale(long Id);
 		void ListForRent(long Id);
     }
-	}
+	
 }

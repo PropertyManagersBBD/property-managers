@@ -1,6 +1,6 @@
 ﻿using Backend.Database.Context;
 using Backend.DTOs;
-using System.Diagnostics;
+using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Backend.Services
@@ -83,10 +83,23 @@ namespace Backend.Services
 				entitiy.Pending = true;
 				_propertyManagerContext.SaveChanges();
 			}
-			Debug.WriteLine(id);
 			return id;
 		}
 
+		public long GetPropertyOwner(long propertyId)
+		{
+			var dbResult = _propertyManagerContext.Properties.Where(p=>p.Id == propertyId).FirstOrDefault();
+			if(dbResult == null)
+				throw new Exception($"Property {propertyId} does not exist");
+
+			var ownerId = dbResult.OwnerId ?? -1;
+
+			if (ownerId == -1)
+				throw new Exception($"Property {propertyId} does not have an owner");
+
+			return ownerId;
+		}
+		
 		public void ListForRent(long Id)
 		{
 			var entity = _propertyManagerContext.Properties.FirstOrDefault(item => item.Id == Id);

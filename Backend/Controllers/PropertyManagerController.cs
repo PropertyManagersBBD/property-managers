@@ -1,6 +1,7 @@
 ﻿using Backend.DTOs;
 using Backend.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
 namespace Backend.Controllers
 {
@@ -20,10 +21,6 @@ namespace Backend.Controllers
 			_logger = logger;
 			_propertyManagerService = propertyManagerService;
 		}
-
-
-
-
 
 		/// <summary>
 		/// Used to set the new price of the property
@@ -51,42 +48,52 @@ namespace Backend.Controllers
 			}
 		}
 
-
-
-        /// <summary>
-        /// Used to get an available property of a given size
-        /// </summary>
-        /// <returns>Property ID and price of the requested property</returns>
-        /// <remarks>
-        /// body requires size
+		/// <summary>
+		/// Used to get an available property of a given size
+		/// </summary>
+		/// <returns>Property ID and price of the requested property</returns>
+		/// <remarks>
+		/// body requires size
 		/// 
 		/// {
-		///		body:int
+		///		size:int,
+		///		toRent: bool
 		/// }
 		/// 
-        /// </remarks>
-        /// <response code="200"> Good </response>
-        /// <response code="400"> Bad</response>
-        [HttpPut("Property",Name = "RequestProperty")]
-		public IActionResult GetProperties()
+		/// </remarks>
+		/// <response code="200"> Good </response>
+		/// <response code="400"> Bad</response>
+		[HttpPut("Property", Name = "RequestProperty")]
+		public IActionResult GetProperties([FromBody] RequestProperty requestProperty)
 		{
 			try
 			{
-				bool houseSizeExissts = HttpContext.Request.Query.ContainsKey("size");
-				if (houseSizeExissts)
+				if(requestProperty.size > 0 && requestProperty.size <= 8)
 				{
-					//TODO: add functionality
-					//also check that authorization header has a valid api key
-				return Ok();
+					decimal price = _propertyManagerService.GetPrice(requestProperty.size);
+
+					long propertyId = _propertyManagerService.GetProperty(requestProperty.size, requestProperty.toRent);
+
+					if(propertyId == -1)
+					{
+						return BadRequest("No Property Is Available");
+					}
+					else
+					{
+						var response = new PropertyResponse(price, propertyId);
+						return (Ok(response));
+					}
+
 				}
 				else
 				{
-					return BadRequest("Incorrect query params");
+					return BadRequest("Invalid Size");
 				}
 			}catch(Exception ex)
 			{
 				return BadRequest(ex.Message);
 			}
+			
 		}
 
 		/// <summary>
@@ -141,9 +148,9 @@ namespace Backend.Controllers
 			{
 				return BadRequest(ex.Message);
 			}
-        }
+		}
 
-        /// <summary>
+		/// <summary>
         /// test end point to check if service is alive
         /// </summary>
         /// 
@@ -161,7 +168,8 @@ namespace Backend.Controllers
             return (Ok("pong"));
         }
 
-        /// <summary>
+
+		/// <summary>
         /// Used to list a property on the market to be rented
         /// </summary>
         /// 
@@ -187,29 +195,29 @@ namespace Backend.Controllers
 			}
         }
 
-        /// <summary>
-        /// Transfers ownership of property or cancels transfer
-        /// </summary>
-        /// <returns>200 or a 400</returns>
-        /// <remarks>
-        /// 
-        /// Body requires propertyId, sellerId, buyerId, price, approval
-        /// 
-        /// {
-        ///     propertyId:long
-        ///     sellerId:long
-        ///     buyerId:long
-        ///     price:string
-        ///     approval:bool
-        /// }
-        /// 
-        /// </remarks>
-        /// <response code="200"> Good</response>
-        /// <response code="400"> Bad</response>
-        [HttpPut("Approval", Name = "Approval")]
-        public IActionResult ApproveProperty()
-        {
-            return (Ok());
-        }
-    }
+		/// <summary>
+		/// Transfers ownership of property or cancels transfer
+		/// </summary>
+		/// <returns>200 or a 400</returns>
+		/// <remarks>
+		/// 
+		/// Body requires propertyId, sellerId, buyerId, price, approval
+		/// 
+		/// {
+		///     propertyId:long
+		///     sellerId:long
+		///     buyerId:long
+		///     price:string
+		///     approval:bool
+		/// }
+		/// 
+		/// </remarks>
+		/// <response code="200"> Good</response>
+		/// <response code="400"> Bad</response>
+		[HttpPut("Approval", Name = "Approval")]
+		public IActionResult ApproveProperty()
+		{
+			return (Ok());
+		}
+	}
 }

@@ -1,5 +1,4 @@
 ﻿using Backend.Database.Context;
-using Backend.Database;
 using Backend.DTOs;
 using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Tokens;
@@ -19,7 +18,8 @@ namespace Backend.Services
 
 		public void SpawnProperties()
 		{
-			if (_propertyManagerContext.Properties.IsNullOrEmpty()){
+			if(_propertyManagerContext.Properties.IsNullOrEmpty())
+			{
 				var properties = new List<Database.Models.Property>();
 				for(int i = 0; i < 50; i++)
 				{
@@ -57,6 +57,35 @@ namespace Backend.Services
 			LatestPricePerUnit = newPrice;
 		}
 
+		public decimal GetPrice(int size)
+		{
+			return LatestPricePerUnit * size;
+		}
+
+		public long GetProperty(int size, bool ToRent)
+		{
+			long id = 0;
+			if(ToRent)
+			{
+				id = _propertyManagerContext.Properties.Where(p => p.Capacity == size && p.ListedForRent == true && p.Pending == false).Select(p => p.Id).AsEnumerable().DefaultIfEmpty(-1).FirstOrDefault();
+
+			}
+			else
+			{
+
+				id = _propertyManagerContext.Properties.Where(p => p.Capacity == size && p.ListedForSale == true && p.Pending == false).Select(p => p.Id).AsEnumerable().DefaultIfEmpty(-1).FirstOrDefault();
+			}
+
+			var entitiy = _propertyManagerContext.Properties.FirstOrDefault(item => item.Id == id);
+
+			if(entitiy != null)
+			{
+				entitiy.Pending = true;
+				_propertyManagerContext.SaveChanges();
+			}
+			return id;
+		}
+
 		public long GetPropertyOwner(long propertyId)
 		{
 			var dbResult = _propertyManagerContext.Properties.Where(p=>p.Id == propertyId).FirstOrDefault();
@@ -74,8 +103,8 @@ namespace Backend.Services
 		public void ListForRent(long Id)
 		{
 			var entity = _propertyManagerContext.Properties.FirstOrDefault(item => item.Id == Id);
-        
-			if (entity != null)
+
+			if(entity != null)
 			{
 				entity.ListedForRent = true;
 				_propertyManagerContext.SaveChanges();
@@ -85,12 +114,12 @@ namespace Backend.Services
 		public void ListForSale(long Id)
 		{
 			var entity = _propertyManagerContext.Properties.FirstOrDefault(item => item.Id == Id);
-        
-			if (entity != null)
+
+			if(entity != null)
 			{
 				entity.ListedForSale = true;
 				_propertyManagerContext.SaveChanges();
-			}	
+			}
 		}
 	}
 }

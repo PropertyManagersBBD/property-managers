@@ -1,5 +1,7 @@
 ﻿using Backend.Database.Context;
 using Backend.DTOs;
+using Microsoft.Identity.Client;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Backend.Services
 {
@@ -11,18 +13,28 @@ namespace Backend.Services
 		public PropertyManagerService(PropertyManagerContext propertyManagerContext)
 		{
 			_propertyManagerContext = propertyManagerContext;
+			SpawnProperties();
 		}
 
-		public int SpawnProperties(int num)
+		public void SpawnProperties()
 		{
-			int numCreated = 0;
-			for(int i = 0; i < num; i++)
+			if(_propertyManagerContext.Properties.IsNullOrEmpty())
 			{
-				int numProperties = (new Random().Next() % 7) + 1; // Between 1 and 8
-				Property property = new Property(numProperties);
-				numCreated = i + 1;
+				var properties = new List<Database.Models.Property>();
+				for(int i = 0; i < 50; i++)
+				{
+					int numProperties = (new Random().Next() % 7) + 1; // Between 1 and 8
+					Database.Models.Property property = new Database.Models.Property
+					{
+						Capacity = numProperties,
+						ListedForRent = true,
+						ListedForSale = true
+					};
+					properties.Add(property);
+				}
+				_propertyManagerContext.Properties.AddRange(properties);
+				_propertyManagerContext.SaveChanges();
 			}
-			return numCreated;
 		}
 
 
@@ -43,6 +55,68 @@ namespace Backend.Services
 				throw new Exception("Price of property must be greater than 0");
 
 			LatestPricePerUnit = newPrice;
+		}
+
+		public decimal GetPrice(int size)
+		{
+			return LatestPricePerUnit * size;
+		}
+
+		public long GetProperty(int size, bool ToRent)
+		{
+			long id = 0;
+			if(ToRent)
+			{
+				id = _propertyManagerContext.Properties.Where(p => p.Capacity == size && p.ListedForRent == true && p.Pending == false).Select(p => p.Id).AsEnumerable().DefaultIfEmpty(-1).FirstOrDefault();
+
+			}
+			else
+			{
+
+				id = _propertyManagerContext.Properties.Where(p => p.Capacity == size && p.ListedForSale == true && p.Pending == false).Select(p => p.Id).AsEnumerable().DefaultIfEmpty(-1).FirstOrDefault();
+			}
+
+			var entitiy = _propertyManagerContext.Properties.FirstOrDefault(item => item.Id == id);
+
+			if(entitiy != null)
+			{
+				entitiy.Pending = true;
+				_propertyManagerContext.SaveChanges();
+			}
+			return id;
+		}
+
+		public long GetPropertyOwner(long propertyId)
+		{
+			var dbResult = _propertyManagerContext.Properties.Where(p=>p.Id == propertyId).FirstOrDefault();
+			if(dbResult == null)
+				throw new Exception($"Property {propertyId} does not exist");
+
+			var ownerId = dbResult.OwnerId ?? -1;
+
+			return ownerId;
+		}
+		
+		public void ListForRent(long Id)
+		{
+			var entity = _propertyManagerContext.Properties.FirstOrDefault(item => item.Id == Id);
+
+			if(entity != null)
+			{
+				entity.ListedForRent = true;
+				_propertyManagerContext.SaveChanges();
+			}
+		}
+
+		public void ListForSale(long Id)
+		{
+			var entity = _propertyManagerContext.Properties.FirstOrDefault(item => item.Id == Id);
+
+			if(entity != null)
+			{
+				entity.ListedForSale = true;
+				_propertyManagerContext.SaveChanges();
+			}
 		}
 	}
 }

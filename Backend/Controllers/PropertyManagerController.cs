@@ -9,13 +9,13 @@ namespace Backend.Controllers
 	/// </summary>
 	[ApiController]
 	[Route("PropertyManager")]
-	public class ProperyManagerController : ControllerBase
+	public class PropertyManagerController : ControllerBase
 	{
 
-		private readonly ILogger<ProperyManagerController> _logger;
+		private readonly ILogger<PropertyManagerController> _logger;
 		private readonly IPropertyManagerService _propertyManagerService;
 
-		public ProperyManagerController(ILogger<ProperyManagerController> logger, IPropertyManagerService propertyManagerService)
+		public PropertyManagerController(ILogger<PropertyManagerController> logger, IPropertyManagerService propertyManagerService)
 		{
 			_logger = logger;
 			_propertyManagerService = propertyManagerService;
@@ -113,15 +113,23 @@ namespace Backend.Controllers
         /// <returns>200 or a 400</returns>
         /// <remarks>
         /// 
-        /// Body requres ownerID
+        /// Body requres the property ID
         ///
         /// </remarks>
         /// <response code="200"> Good </response>
         /// <response code="400"> Bad</response>
         [HttpPost("Sell", Name = "SellProperty")]
-        public IActionResult SellProperty()
+        public IActionResult SellProperty(int Id)
         {
-            return (Ok());
+            try
+			{
+                _propertyManagerService.ListForSale(Id);
+                return Ok("Proprty " + Id + " has been listed for sale");
+			}
+			catch(Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
         }
 
 
@@ -133,15 +141,23 @@ namespace Backend.Controllers
         /// <returns>200 or a 400</returns>
         /// <remarks>
         /// 
-        /// Body requres ownerID
+        /// Body requres the property ID
         ///
         /// </remarks>
         /// <response code="200"> Good </response>
         /// <response code="400"> Bad</response>
         [HttpPost("Rent", Name = "RentProperty")]
-        public IActionResult RentProperty()
+        public IActionResult RentProperty(int Id)
         {
-            return (Ok());
+            try
+			{
+                _propertyManagerService.ListForRent(Id);
+				return Ok("Proprty " + Id + " has been listed for rent");
+			}
+			catch(Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
         }
 
         /// <summary>

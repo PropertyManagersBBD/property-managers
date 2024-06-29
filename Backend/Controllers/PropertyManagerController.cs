@@ -105,11 +105,13 @@ namespace Backend.Controllers
 		/// requires the property ID in the url
 		///
 		/// </remarks>
-		/// <response code="200"> Will return the property owner's Id </response>
+		/// <response code="200">
+		/// Will return the property owner's Id.
+		/// An Id of -1 indicates that the property is owned by the central revenue service.
+		/// </response>
 		/// <response code="400"> 
-		/// Will either return:
-		/// "Property {propertyId} does not exist" OR
-		/// "Property {propertyId} does not have an owner"
+		/// Will return:
+		/// "Property {propertyId} does not exist"
 		/// </response>
 		[HttpGet("Owner/{propertyID}", Name ="GetOwner")]
 		public IActionResult GetOwner(long propertyID)

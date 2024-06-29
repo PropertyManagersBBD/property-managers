@@ -94,9 +94,6 @@ namespace Backend.Services
 
 			var ownerId = dbResult.OwnerId ?? -1;
 
-			if (ownerId == -1)
-				throw new Exception($"Property {propertyId} does not have an owner");
-
 			return ownerId;
 		}
 		

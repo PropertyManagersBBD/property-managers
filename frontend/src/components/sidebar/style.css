@@ -50,7 +50,6 @@
 
 .Location-Buttons button{
     background: none;
-    color: white;
     border: none;
     text-align: start;
     display: flex;
@@ -72,4 +71,10 @@
 
 .unselectedButton :hover{
     color:lightgray;
+}
+
+.Footer{
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }

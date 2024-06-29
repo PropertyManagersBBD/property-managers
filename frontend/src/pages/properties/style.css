@@ -1,15 +1,19 @@
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    font-family: Arial, sans-serif; /* Optional */
-
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: Inter; /* Optional */
 }
 
-.wrapper{
+.wrapper {
+  height: 100%;
+  margin: 2rem;
+}
 
-    height:100%;
-    
-
+h1 {
+  font-family: Inter;
+  font-size: 2.5rem;
 }

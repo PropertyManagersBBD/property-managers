@@ -1,0 +1,42 @@
+.Wrapper{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.input-wrapper{
+    display: flex;
+    justify-content: space-around;
+    height: 3rem;
+    flex-wrap: wrap;
+    gap:1em;
+    margin: 1em;
+}
+
+.inputField{
+    flex:1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1em;
+    padding: 1em;
+}
+
+.main-table{
+    margin: 1em;
+    /* flex:1; */
+    height: fit-content
+}
+
+.Entry{
+    display: flex;
+    justify-content: space-evenly;
+}
+.Header{
+    display: flex;
+    justify-content: space-evenly;
+    color: white;
+    background-color: #193a3f;
+    border-radius: 1em;
+
+}

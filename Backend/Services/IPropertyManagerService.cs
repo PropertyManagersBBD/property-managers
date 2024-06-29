@@ -7,6 +7,7 @@ namespace Backend.Services
 		void SpawnProperties();
 		List<Property> GetTop5Properties();
 		void SetPrice(decimal newPrice);
+		long GetPropertyOwner(long propertyId);
 		void ListForSale(long Id);
 		void ListForRent(long Id);
 	}

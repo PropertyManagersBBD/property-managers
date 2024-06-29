@@ -151,22 +151,6 @@ namespace Backend.Controllers
 		}
 
 		/// <summary>
-		/// Used to get the owner ID of a given property
-		/// </summary>
-		/// <returns>owner ID of the requested property</returns>
-		/// <remarks>
-		/// 
-		/// requires the poperty ID in the url
-		///
-		/// </remarks>
-		/// <response code="200"> Good </response>
-		/// <response code="400"> Bad </response>
-		[HttpGet("Owner/{propertyID}", Name = "GetOwner")]
-		public IActionResult GetOwner()
-		{
-			return (Ok());
-		}
-		/// <summary>
         /// test end point to check if service is alive
         /// </summary>
         /// 
@@ -184,31 +168,6 @@ namespace Backend.Controllers
             return (Ok("pong"));
         }
 
-        /// <summary>
-        /// Used to list a property on the market to be sold
-        /// </summary>
-		/// 
-        /// <returns>200 or a 400</returns>
-        /// <remarks>
-        /// 
-        /// Body requres the property ID
-        ///
-        /// </remarks>
-        /// <response code="200"> Good </response>
-        /// <response code="400"> Bad</response>
-        [HttpPost("Sell", Name = "SellProperty")]
-        public IActionResult SellProperty(int Id)
-        {
-            try
-			{
-                _propertyManagerService.ListForSale(Id);
-                return Ok("Proprty " + Id + " has been listed for sale");
-			}
-			catch(Exception ex)
-			{
-				return BadRequest(ex.Message);
-			}
-        }
 
 		/// <summary>
         /// Used to list a property on the market to be rented
@@ -235,32 +194,6 @@ namespace Backend.Controllers
 				return BadRequest(ex.Message);
 			}
         }
-
-		/// <summary>
-		/// Used to list a property on the market to be rented
-		/// </summary>
-		/// 
-		/// <returns>200 or a 400</returns>
-		/// <remarks>
-		/// 
-		/// Body requres the property ID
-		///
-		/// </remarks>
-		/// <response code="200"> Good </response>
-		/// <response code="400"> Bad</response>
-		[HttpPost("Rent", Name = "RentProperty")]
-		public IActionResult RentProperty(int Id)
-		{
-			try
-			{
-				_propertyManagerService.ListForRent(Id);
-				return Ok("Proprty " + Id + " has been listed for rent");
-			}
-			catch(Exception ex)
-			{
-				return BadRequest(ex.Message);
-			}
-		}
 
 		/// <summary>
 		/// Transfers ownership of property or cancels transfer

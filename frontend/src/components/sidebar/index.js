@@ -19,7 +19,9 @@ function SideBar({ Selected }) {
       <article className="logoWrapper">
         <Logo className="logo" />
       </article>
-      <button className="loginButton">Login</button>
+      <button className="loginButton" onClick={()=>{
+        window.location.href="https://dev-property-manager.auth.eu-west-1.amazoncognito.com/login?client_id=7tkql2hk58h484i70ji3n9hvb6&response_type=token&scope=email+openid+phone&redirect_uri=http%3A%2F%2Flocalhost%3A3000";
+      }}>Login</button>
       <section className="Location-Buttons">
         <button
           className={

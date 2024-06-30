@@ -33,4 +33,13 @@ const getRentalContracts=(async (pageNumber) =>{
     }
 });
 
-module.exports={getProperties,getSalesContracts,getRentalContracts}
+const verifyJWT =(async (idToken, accessToken) =>{
+    try{
+        const response= await fetch(baseURL+"verifyJWT?idToken="+idToken+"&accessToken="+accessToken)
+        const data=await response.json();
+        return(data)
+    }catch(e){
+        console.log("Failed to verify token")
+    }
+})
+module.exports={getProperties,getSalesContracts,getRentalContracts,verifyJWT}

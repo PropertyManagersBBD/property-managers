@@ -229,7 +229,7 @@ namespace Backend.Controllers
 		/// <returns>Returns all properties</returns>
 		/// <remarks>
 		/// 
-		/// 
+		/// Takes in a page number with pages starting from 1 to provide a manageable amount of data at a time
 		///
 		/// </remarks>
 		/// <response code="200">
@@ -257,7 +257,7 @@ namespace Backend.Controllers
 		/// <returns>Returns all sale contracts</returns>
 		/// <remarks>
 		/// 
-		/// 
+		/// Takes in a page number with pages starting from 1 to provide a manageable amount of data at a time
 		///
 		/// </remarks>
 		/// <response code="200">
@@ -285,7 +285,7 @@ namespace Backend.Controllers
 		/// <returns>Returns all rental contracts</returns>
 		/// <remarks>
 		/// 
-		/// 
+		/// Takes in a page number with pages starting from 1 to provide a manageable amount of data at a time
 		///
 		/// </remarks>
 		/// <response code="200">

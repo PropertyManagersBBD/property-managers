@@ -11,7 +11,7 @@ namespace Backend.Controllers
 	/// <summary>
 	/// Property manager controller
 	/// </summary>
-	[Authorize]
+	//[Authorize]
 	[ApiController]
 	[EnableCors("_myAllowSpecificOrigins")]
 	[Route("PropertyManager")]
@@ -162,18 +162,19 @@ namespace Backend.Controllers
 		}
 
 		/// <summary>
-        /// test end point to check if service is alive
-        /// </summary>
-        /// 
-        /// <returns>200 or a 500</returns>
-        /// <remarks>
-        /// 
-        /// 
-        ///
-        /// </remarks>
-        /// <response code="200"> Good </response>
-        /// <response code="400"> Bad</response>
-        [HttpGet("ping", Name="Ping")]
+		/// test end point to check if service is alive
+		/// </summary>
+		/// 
+		/// <returns>200 or a 500</returns>
+		/// <remarks>
+		/// 
+		/// 
+		///
+		/// </remarks>
+		/// <response code="200"> Good </response>
+		/// <response code="400"> Bad</response>
+		//[Authorize]
+		[HttpGet("ping", Name="Ping")]
         public IActionResult ping()
         {
             return (Ok("pong"));

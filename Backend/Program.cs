@@ -45,7 +45,6 @@ namespace Backend
 						Title = "Property Manager API",
 						Description = "Documentation for the Property Manager API",
 					});
-					//c.DocumentFilter<SwaggerBaseUrlDocumentFilter>("https://localhost:7147");
 
 					var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
 					var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);

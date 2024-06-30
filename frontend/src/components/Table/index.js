@@ -5,49 +5,54 @@ import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import FilterListOutlinedIcon from "@mui/icons-material/FilterListOutlined";
-import { getSalesContracts,getProperties,getRentalContracts } from "../../shared/requests";
+import {
+  getSalesContracts,
+  getProperties,
+  getRentalContracts,
+} from "../../shared/requests";
 function ContentTable() {
   const [pageLocation, setLocation] = useState("/");
   const location = useLocation();
-  const [data, setData]=useState([])
-  const [pageNumber, setPageNumber]=useState(1);
+  const [data, setData] = useState([]);
+  const [pageNumber, setPageNumber] = useState(1);
   useEffect(() => {
     setLocation(location.pathname);
 
-    if(location.pathname==="/"){
-      getProperties(pageNumber).then((returnData) =>{
+    if (location.pathname === "/") {
+      getProperties(pageNumber).then((returnData) => {
         setData(returnData);
-      }
-      )
-    }else if(location.pathname==="/sales"){
-      getSalesContracts(pageNumber).then((returnData)=>{
-        setData(returnData)
       });
-    }else{
-      getRentalContracts(pageNumber).then((returnData) =>{
-        setData(returnData)
+    } else if (location.pathname === "/sales") {
+      getSalesContracts(pageNumber).then((returnData) => {
+        setData(returnData);
+      });
+    } else {
+      getRentalContracts(pageNumber).then((returnData) => {
+        setData(returnData);
       });
     }
-  
   }, [location.pathname, pageNumber]);
 
-  
-  
   return (
     <article className="Wrapper">
       <section className="navButtons">
-        <button onClick={()=>{
-          setPageNumber(pageNumber+1);
-        }}>
-          Next <ArrowForwardIcon />
-        </button>
-        <button onClick={()=>{
-          if (pageNumber>1){
-
-            setPageNumber(pageNumber-1)
-          }
-        }}>
+        <button
+          onClick={() => {
+            if (pageNumber > 1) {
+              setPageNumber(pageNumber - 1);
+            }
+          }}
+        >
           <ArrowBackIcon /> Back{" "}
+        </button>
+        <button
+          onClick={() => {
+            if (data.length === 7) {
+              setPageNumber(pageNumber + 1);
+            }
+          }}
+        >
+          Next <ArrowForwardIcon />
         </button>
       </section>
       <section className="input-wrapper">
@@ -73,7 +78,7 @@ function ContentTable() {
             <option value="7">7</option>
             <option value="8">8</option>
           </select>
-          <FilterListOutlinedIcon/>
+          <FilterListOutlinedIcon />
         </article>
 
         <article className="selectWrapper">
@@ -82,7 +87,7 @@ function ContentTable() {
             <option value="Rental">Rental</option>
             <option value="Purchase">Purchase</option>
           </select>
-          <FilterListOutlinedIcon/>
+          <FilterListOutlinedIcon />
         </article>
       </section>
 
@@ -98,24 +103,28 @@ function ContentTable() {
               <h2>Pending</h2>
             </section>
 
-            {data.map((item, index) => {
-              return (
-                <article className="Entry" key={index}>
-                  <h2>{item.id}</h2>
-                  <h2>{item.ownerId}</h2>
-                  <h2>{item.capacity}</h2>
-                  <h2>{item.listedForRent ? "True" : "False"}</h2>
-                  <h2>{item.listedForSale ? "True" : "False"}</h2>
-                  <h2>{item.pending ? "True" : "False"}</h2>
-                </article>
-              );
-            })}
+            {data ? (
+              data.map((item, index) => {
+                return (
+                  <article className="Entry" key={index}>
+                    <h2>{item.id}</h2>
+                    <h2>{item.ownerId}</h2>
+                    <h2>{item.capacity}</h2>
+                    <h2>{item.listedForRent ? "True" : "False"}</h2>
+                    <h2>{item.listedForSale ? "True" : "False"}</h2>
+                    <h2>{item.pending ? "True" : "False"}</h2>
+                  </article>
+                );
+              })
+            ) : (
+              <article className="Error-Message">
+              <h2>There Seems To Be A Problem</h2>
+              </article>
+            )}
           </article>
         )}
 
-
-
-{pageLocation === "/sales" && (
+        {pageLocation === "/sales" && (
           <article className="tableBody">
             <section className="Header">
               <h2>Contract ID</h2>
@@ -126,23 +135,26 @@ function ContentTable() {
               <h2>Price</h2>
             </section>
 
-            {data.map((item, index) => {
-              return (
+            {data ? (
+              data.map((item, index) => (
                 <article className="Entry" key={index}>
                   <h2>{item.id}</h2>
                   <h2>{item.propertyId}</h2>
                   <h2>{item.sellerId}</h2>
-                  <h2>{item.buyerId }</h2>
+                  <h2>{item.buyerId}</h2>
                   <h2>{item.capacity}</h2>
-                  <h2>Ð {item.price }</h2>
+                  <h2>Ð {item.price}</h2>
                 </article>
-              );
-            })}
+              ))
+            ) : (
+              <article className="Error-Message">
+              <h2>There Seems To Be A Problem</h2>
+              </article>
+            )}
           </article>
         )}
 
-
-{pageLocation === "/rentals" && (
+        {pageLocation === "/rentals" && (
           <article className="tableBody">
             <section className="Header">
               <h2>Contract ID</h2>
@@ -153,18 +165,24 @@ function ContentTable() {
               <h2>Price</h2>
             </section>
 
-            {data.map((item, index) => {
-              return (
-                <article className="Entry" key={index}>
-                  <h2>{item.id}</h2>
-                  <h2>{item.propertyId}</h2>
-                  <h2>{item.landlordId}</h2>
-                  <h2>{item.tenantId }</h2>
-                  <h2>{item.capacity}</h2>
-                  <h2>Ð {item.price }</h2>
-                </article>
-              );
-            })}
+            {data ? (
+              data.map((item, index) => {
+                return (
+                  <article className="Entry" key={index}>
+                    <h2>{item.id}</h2>
+                    <h2>{item.propertyId}</h2>
+                    <h2>{item.landlordId}</h2>
+                    <h2>{item.tenantId}</h2>
+                    <h2>{item.capacity}</h2>
+                    <h2>Ð {item.price}</h2>
+                  </article>
+                );
+              })
+            ) : (
+              <article className="Error-Message">
+              <h2>There Seems To Be A Problem</h2>
+              </article>
+            )}
           </article>
         )}
       </article>

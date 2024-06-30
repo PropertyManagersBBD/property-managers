@@ -1,5 +1,7 @@
 ﻿using Backend.DTOs;
 using Backend.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Diagnostics;
@@ -9,7 +11,9 @@ namespace Backend.Controllers
 	/// <summary>
 	/// Property manager controller
 	/// </summary>
+	[Authorize]
 	[ApiController]
+	[EnableCors("_myAllowSpecificOrigins")]
 	[Route("PropertyManager")]
 	public class PropertyManagerController : ControllerBase
 	{
@@ -35,6 +39,7 @@ namespace Backend.Controllers
 		/// </remarks>
 		/// <response code="200"> The new price per unit was set </response>
 		/// <response code="400"> An error occurred, so the old price per unit was used </response>
+		[Authorize]
 		[HttpPut("SetPrice/{newPrice}", Name = "Set Price per housing unit")]
 		public IActionResult SetPrice(decimal newPrice)
 		{
@@ -64,6 +69,7 @@ namespace Backend.Controllers
 		/// </remarks>
 		/// <response code="200"> Good </response>
 		/// <response code="400"> Bad</response>
+		[Authorize]
 		[HttpPut("Property", Name = "RequestProperty")]
 		public IActionResult GetProperties([FromBody] RequestProperty requestProperty)
 		{
@@ -114,6 +120,7 @@ namespace Backend.Controllers
 		/// Will return:
 		/// "Property {propertyId} does not exist"
 		/// </response>
+		[Authorize]
 		[HttpGet("Owner/{propertyID}", Name ="GetOwner")]
 		public IActionResult GetOwner(long propertyID)
 		{
@@ -139,7 +146,8 @@ namespace Backend.Controllers
         /// </remarks>
         /// <response code="200"> Good </response>
         /// <response code="400"> Bad</response>
-        [HttpPost("Sell", Name = "SellProperty")]
+		[Authorize]
+		[HttpPost("Sell", Name = "SellProperty")]
         public IActionResult SellProperty(int Id)
         {
             try
@@ -184,7 +192,8 @@ namespace Backend.Controllers
         /// </remarks>
         /// <response code="200"> Good </response>
         /// <response code="400"> Bad</response>
-        [HttpPost("Rent", Name = "RentProperty")]
+		[Authorize]
+		[HttpPost("Rent", Name = "RentProperty")]
         public IActionResult RentProperty(int Id)
         {
             try
@@ -217,6 +226,7 @@ namespace Backend.Controllers
 		/// </remarks>
 		/// <response code="200"> Good</response>
 		/// <response code="400"> Bad</response>
+		[Authorize]
 		[HttpPut("Approval", Name = "Approval")]
 		public IActionResult ApproveProperty()
 		{
@@ -238,6 +248,7 @@ namespace Backend.Controllers
 		/// <response code="400"> 
 		/// Will return the error
 		/// </response>
+		[Authorize]
 		[HttpGet("Properties/{PageNumber}", Name ="GetAllProperties")]
 		public IActionResult GetAllProperties(int PageNumber)
 		{
@@ -266,6 +277,7 @@ namespace Backend.Controllers
 		/// <response code="400"> 
 		/// Will return the error
 		/// </response>
+		[Authorize]
 		[HttpGet("SaleContracts/{PageNumber}", Name ="GetAllSaleContracts")]
 		public IActionResult GetAllSaleContracts(int PageNumber)
 		{
@@ -294,6 +306,7 @@ namespace Backend.Controllers
 		/// <response code="400"> 
 		/// Will return the error
 		/// </response>
+		[Authorize]
 		[HttpGet("RentalContracts/{PageNumber}", Name ="GetAllRentalContracts")]
 		public IActionResult GetAllRentalContracts(int PageNumber)
 		{

@@ -44,6 +44,16 @@ resource "aws_iam_role" "beanstalk_ec2" {
   path                 = "/"
 }
 
+# data "aws_acm_certificate" "issued" {
+#   domain   = "property-manager.projects.bbdgrad.com"
+#   statuses = ["ISSUED"]
+# }
+
+resource "aws_acm_certificate" "backend_cert" {
+  domain_name = "property-manager.projects.bbdgrad.com"
+  validation_method = "DNS"
+}
+
 data "aws_secretsmanager_secret_version" "propertymanager-db-details" {
   secret_id = module.rds.db_instance_master_user_secret_arn
 }
@@ -92,7 +102,7 @@ resource "aws_elastic_beanstalk_environment" "beanstalk_env" {
   setting {
     namespace = "aws:elasticbeanstalk:application"
     name      = "Application Healthcheck URL"
-    value     = "/"
+    value     = "/PropertyManager/ping"
   }
   setting {
     namespace = "aws:elasticbeanstalk:command"
@@ -102,17 +112,61 @@ resource "aws_elastic_beanstalk_environment" "beanstalk_env" {
   setting {
     namespace = "aws:elasticbeanstalk:command"
     name      = "IgnoreHealthCheck"
-    value     = "true"
-  }
-  setting {
-    namespace = "aws:elasticbeanstalk:environment"
-    name      = "EnvironmentType"
-    value     = "SingleInstance"
+    value     = "false"
   }
   setting {
     namespace = "aws:elasticbeanstalk:managedactions"
     name      = "ManagedActionsEnabled"
     value     = "false"
+  }
+
+  setting {
+    namespace = "aws:elasticbeanstalk:environment"
+    name      = "EnvironmentType"
+    value     = "LoadBalanced"
+    resource  = ""
+  }
+  setting {
+    namespace = "aws:elasticbeanstalk:environment"
+    name      = "LoadBalancerType"
+    value     = "application"
+    resource  = ""
+  }
+  setting {
+    namespace = "aws:elbv2:listener:80"
+    name      = "ListenerEnabled"
+    value     = "true"
+    resource  = ""
+  }
+  setting {
+    namespace = "aws:elbv2:listener:80"
+    name      = "Protocol"
+    value     = "HTTP"
+    resource  = ""
+  }
+  setting {
+    namespace = "aws:elbv2:listener:443"
+    name      = "ListenerEnabled"
+    value     = "true"
+    resource  = ""
+  }
+  setting {
+    namespace = "aws:elbv2:listener:443"
+    name      = "Protocol"
+    value     = "HTTPS"
+    resource  = ""
+  }
+  setting {
+    namespace = "aws:elbv2:listener:443"
+    name      = "SSLCertificateArns"
+    value     = resource.aws_acm_certificate.backend_cert.arn
+    resource  = ""
+  }
+  setting {
+    namespace = "aws:ec2:vpc"
+    name      = "AssociatePublicIpAddress"
+    value     = "true"
+    resource  = ""
   }
   setting {
     namespace = "aws:elasticbeanstalk:application:environment"

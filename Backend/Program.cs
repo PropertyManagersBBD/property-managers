@@ -52,7 +52,9 @@ namespace Backend
                 options.AddPolicy(name: MyAllowSpecificOrigins,
                                   policy =>
                                   {
-                                      policy.WithOrigins("http://localhost:3000");
+                                      policy.AllowAnyOrigin()
+                                            .WithMethods("GET", "POST") // Only allows GET and POST methods
+                                            .AllowAnyHeader();
                                   });
             });
             var app = builder.Build();

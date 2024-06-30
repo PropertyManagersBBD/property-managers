@@ -11,7 +11,7 @@ public partial class Property
     [Key]
     public long Id { get; set; }
 
-    public long? OwnerId { get; set; }
+    public long OwnerId { get; set; }
 
     public int Capacity { get; set; }
 

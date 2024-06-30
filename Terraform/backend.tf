@@ -49,7 +49,7 @@ resource "aws_iam_role" "beanstalk_ec2" {
 #   statuses = ["ISSUED"]
 # }
 
-resource "aws_acm_certificate" "backend_cert" {
+resource "aws_acm_certificate" "https_api_cert" {
   domain_name = "property-manager.projects.bbdgrad.com"
   validation_method = "DNS"
 }
@@ -159,7 +159,7 @@ resource "aws_elastic_beanstalk_environment" "beanstalk_env" {
   setting {
     namespace = "aws:elbv2:listener:443"
     name      = "SSLCertificateArns"
-    value     = resource.aws_acm_certificate.backend_cert.arn
+    value     = resource.aws_acm_certificate.https_api_cert.arn
     resource  = ""
   }
   setting {

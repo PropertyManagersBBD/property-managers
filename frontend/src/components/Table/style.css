@@ -1,42 +1,116 @@
-.Wrapper{
-    display: flex;
-    flex-direction: column;
-    height: 100%;
+.Wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.navButtons {
+  display: flex;
+  gap: 1em;
+  margin: 1em;
+}
+.navButtons button {
+  flex: 1;
+  padding: 0.5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 1em;
+  border: none;
+  background-color: #193a3f;
+  color: white;
+}
+.navButtons button:hover {
+  background-color: #37808b;
+  color: white;
+}
+.input-wrapper {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 1em;
+  margin: 1em;
 }
 
-.input-wrapper{
-    display: flex;
-    justify-content: space-around;
-    height: 3rem;
-    flex-wrap: wrap;
-    gap:1em;
-    margin: 1em;
+.selectField {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 1em;
+  padding: 1em;
+  border: none;
+  appearance: none;
 }
 
-.inputField{
+.main-table {
+  margin: 1em;
+  display: flex;
+  flex-direction: column;
+}
+
+.Entry {
+  display: flex;
+  justify-content: space-around;
+  border-bottom: 1px solid lightgray;
+}
+
+.Entry h2 {
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+.Header {
+  display: flex;
+  justify-content: space-around;
+  color: white;
+  background-color: #193a3f;
+  border-radius: 1em;
+}
+
+.data_entry {
+  display: flex;
+  justify-content: space-evenly;
+  border-bottom: 1px solid lightgray;
+}
+
+.Header h2 {
+  font-size: large;
+}
+
+.SearchContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid gray;
+  border-radius: 1em;
+  flex: 1;
+  padding-right: 1em;
+}
+.searchField {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 1em;
+  padding: 1em;
+  border: none;
+}
+
+input:focus {
+  outline: none;
+}
+
+select:focus {
+  outline: none;
+}
+
+.selectWrapper{
     flex:1;
+    border: 2px solid gray;
+    border-radius: 1em;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 1em;
-    padding: 1em;
-}
-
-.main-table{
-    margin: 1em;
-    /* flex:1; */
-    height: fit-content
-}
-
-.Entry{
-    display: flex;
-    justify-content: space-evenly;
-}
-.Header{
-    display: flex;
-    justify-content: space-evenly;
-    color: white;
-    background-color: #193a3f;
-    border-radius: 1em;
-
+    padding-right: 1em;
 }

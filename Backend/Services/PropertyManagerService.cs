@@ -1,4 +1,5 @@
-﻿using Backend.Database.Context;
+﻿using System.Runtime.ConstrainedExecution;
+using Backend.Database.Context;
 using Backend.DTOs;
 using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Tokens;
@@ -26,6 +27,7 @@ namespace Backend.Services
 					int numProperties = (new Random().Next() % 7) + 1; // Between 1 and 8
 					Database.Models.Property property = new Database.Models.Property
 					{
+						OwnerId = -1,
 						Capacity = numProperties,
 						ListedForRent = true,
 						ListedForSale = true
@@ -42,10 +44,8 @@ namespace Backend.Services
 		{
 			var properties = _propertyManagerContext.Properties.ToList().Take(5);
 
-			var result = properties.Select(prop => new Property(prop.Capacity)
-			{
-				OwnerId = prop.OwnerId ?? 0
-			}).ToList();
+			var result = properties.Select(prop => new Property(prop.Id, prop.OwnerId, prop.Capacity, prop.ListedForSale, prop.ListedForRent, prop.Pending)).ToList();
+
 			return result;
 		}
 
@@ -92,9 +92,8 @@ namespace Backend.Services
 			if(dbResult == null)
 				throw new Exception($"Property {propertyId} does not exist");
 
-			var ownerId = dbResult.OwnerId ?? -1;
 
-			return ownerId;
+			return dbResult.OwnerId;
 		}
 		
 		public void ListForRent(long Id)
@@ -117,6 +116,38 @@ namespace Backend.Services
 				entity.ListedForSale = true;
 				_propertyManagerContext.SaveChanges();
 			}
+		}
+
+		public List<Property> GetAllProperties(int pageNumber) {
+			var properties = _propertyManagerContext.Properties.ToList().OrderBy(x => x.Id)
+			.Skip((pageNumber - 1) * 7)
+			.Take(7)
+			.ToList();
+
+			var result = properties.Select(prop => new Property(prop.Id, prop.OwnerId, prop.Capacity, prop.ListedForSale, prop.ListedForRent, prop.Pending)).ToList();
+			
+			return result;
+		}
+
+		public List<SaleContract> GetAllSaleContracts(int pageNumber){
+			var saleContracts = (from p in _propertyManagerContext.Properties join s in _propertyManagerContext.SaleContracts on p.Id equals s.PropertyId select new {s.Id, s.PropertyId, s.SellerId, s.BuyerId, p.Capacity, s.Price}).ToList()
+			.Skip((pageNumber - 1) * 7)
+			.Take(7)
+			.ToList();
+
+			var result = saleContracts.Select(s => new SaleContract(s.Id, s.PropertyId, s.SellerId, s.BuyerId, s.Capacity, s.Price)).ToList();
+			
+			return result;
+		}
+		public List<RentalContract> GetAllRentalContracts(int pageNumber){
+			var rentalContracts = (from p in _propertyManagerContext.Properties join r in _propertyManagerContext.RentalContracts on p.Id equals r.PropertyId select new {r.Id, r.PropertyId, r.LandlordId, r.TenantId, p.Capacity, r.Rent, r.IsActive}).ToList()
+			.Skip((pageNumber - 1) * 7)
+			.Take(7)
+			.ToList();
+
+			var result = rentalContracts.Select(r => new RentalContract(r.Id, r.PropertyId, r.LandlordId, r.TenantId, r.Capacity, r.Rent, r.IsActive)).ToList();
+			
+			return result;
 		}
 	}
 }

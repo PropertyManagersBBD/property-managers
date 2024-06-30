@@ -7,7 +7,6 @@ const Layout = ({ children }) => {
     const [selected, setSelectedButton] =useState("/");
     const location=useLocation();
     useEffect(()=>{
-        console.log("RAN")
         setSelectedButton(location.pathname);
     },[location.pathname])
     return (

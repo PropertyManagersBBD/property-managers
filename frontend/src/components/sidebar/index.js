@@ -7,10 +7,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function SideBar({ Selected }) {
-  console.log(Selected);
   const [username, setUsername] = useState("@user-name");
   const [selectedButton, setSelectedButton] = useState(Selected);
-  console.log(selectedButton);
   const navigate = useNavigate();
 
   useEffect(() => {

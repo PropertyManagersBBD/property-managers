@@ -1,6 +1,7 @@
 ﻿using Backend.DTOs;
 using Backend.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Diagnostics;
 
 namespace Backend.Controllers
@@ -220,6 +221,90 @@ namespace Backend.Controllers
 		public IActionResult ApproveProperty()
 		{
 			return (Ok());
+		}
+
+        /// <summary>
+		/// Used to get all properties
+		/// </summary>
+		/// <returns>Returns all properties</returns>
+		/// <remarks>
+		/// 
+		/// Takes in a page number with pages starting from 1 to provide a manageable amount of data at a time
+		///
+		/// </remarks>
+		/// <response code="200">
+		/// Will return a list of all the properties.
+		/// </response>
+		/// <response code="400"> 
+		/// Will return the error
+		/// </response>
+		[HttpGet("Properties/{PageNumber}", Name ="GetAllProperties")]
+		public IActionResult GetAllProperties(int PageNumber)
+		{
+            try
+            {
+                List<Property> properties = _propertyManagerService.GetAllProperties(PageNumber);
+                return Ok(properties);
+            } catch(Exception ex)
+            {
+                return BadRequest($"{ex.Message}");
+            }
+		}
+
+        /// <summary>
+		/// Used to get all sale contracts
+		/// </summary>
+		/// <returns>Returns all sale contracts</returns>
+		/// <remarks>
+		/// 
+		/// Takes in a page number with pages starting from 1 to provide a manageable amount of data at a time
+		///
+		/// </remarks>
+		/// <response code="200">
+		/// Will return a list of all the sale contracts.
+		/// </response>
+		/// <response code="400"> 
+		/// Will return the error
+		/// </response>
+		[HttpGet("SaleContracts/{PageNumber}", Name ="GetAllSaleContracts")]
+		public IActionResult GetAllSaleContracts(int PageNumber)
+		{
+            try
+            {
+                List<SaleContract> saleContracts = _propertyManagerService.GetAllSaleContracts(PageNumber);
+                return Ok(saleContracts);
+            } catch(Exception ex)
+            {
+                return BadRequest($"{ex.Message}");
+            }
+		}
+
+        /// <summary>
+		/// Used to get all rental contracts
+		/// </summary>
+		/// <returns>Returns all rental contracts</returns>
+		/// <remarks>
+		/// 
+		/// Takes in a page number with pages starting from 1 to provide a manageable amount of data at a time
+		///
+		/// </remarks>
+		/// <response code="200">
+		/// Will return a list of all the rental contracts.
+		/// </response>
+		/// <response code="400"> 
+		/// Will return the error
+		/// </response>
+		[HttpGet("RentalContracts/{PageNumber}", Name ="GetAllRentalContracts")]
+		public IActionResult GetAllRentalContracts(int PageNumber)
+		{
+            try
+            {
+                List<RentalContract> rentalContracts = _propertyManagerService.GetAllRentalContracts(PageNumber);
+                return Ok(rentalContracts);
+            } catch(Exception ex)
+            {
+                return BadRequest($"{ex.Message}");
+            }
 		}
 	}
 }

@@ -238,12 +238,12 @@ namespace Backend.Controllers
 		/// <response code="400"> 
 		/// Will return the error
 		/// </response>
-		[HttpGet("Properties/{Id}", Name ="GetAllProperties")]
-		public IActionResult GetAllProperties(int Id)
+		[HttpGet("Properties/{PageNumber}", Name ="GetAllProperties")]
+		public IActionResult GetAllProperties(int PageNumber)
 		{
             try
             {
-                List<Property> properties = _propertyManagerService.GetAllProperties(Id);
+                List<Property> properties = _propertyManagerService.GetAllProperties(PageNumber);
                 return Ok(properties);
             } catch(Exception ex)
             {
@@ -266,12 +266,12 @@ namespace Backend.Controllers
 		/// <response code="400"> 
 		/// Will return the error
 		/// </response>
-		[HttpGet("SaleContracts/{Id}", Name ="GetAllSaleContracts")]
-		public IActionResult GetAllSaleContracts(int Id)
+		[HttpGet("SaleContracts/{PageNumber}", Name ="GetAllSaleContracts")]
+		public IActionResult GetAllSaleContracts(int PageNumber)
 		{
             try
             {
-                List<SaleContract> saleContracts = _propertyManagerService.GetAllSaleContracts(Id);
+                List<SaleContract> saleContracts = _propertyManagerService.GetAllSaleContracts(PageNumber);
                 return Ok(saleContracts);
             } catch(Exception ex)
             {
@@ -294,12 +294,12 @@ namespace Backend.Controllers
 		/// <response code="400"> 
 		/// Will return the error
 		/// </response>
-		[HttpGet("RentalContracts/{Id}", Name ="GetAllRentalContracts")]
-		public IActionResult GetAllRentalContracts(int Id)
+		[HttpGet("RentalContracts/{PageNumber}", Name ="GetAllRentalContracts")]
+		public IActionResult GetAllRentalContracts(int PageNumber)
 		{
             try
             {
-                List<RentalContract> rentalContracts = _propertyManagerService.GetAllRentalContracts(Id);
+                List<RentalContract> rentalContracts = _propertyManagerService.GetAllRentalContracts(PageNumber);
                 return Ok(rentalContracts);
             } catch(Exception ex)
             {

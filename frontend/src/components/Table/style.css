@@ -76,6 +76,9 @@
 
 .Header h2 {
   font-size: large;
+  flex:1;
+  display: flex;
+  justify-content: center;
 }
 
 .SearchContainer {

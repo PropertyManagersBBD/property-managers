@@ -209,7 +209,7 @@ namespace Backend.Controllers
         }
 
 		/// <summary>
-		/// Transfers ownership of property or cancels transfer
+		/// ApproveSale
 		/// </summary>
 		/// <returns>200 or a 400</returns>
 		/// <remarks>
@@ -217,24 +217,67 @@ namespace Backend.Controllers
 		/// Body requires propertyId, sellerId, buyerId, price, approval
 		/// 
 		/// {
-		///     propertyId:long
-		///     sellerId:long
-		///     buyerId:long
-		///     price:string
-		///     approval:bool
+		///     PropertyId:long
+		///     BuyerId:long
+		///     SellerId:long
+		///     Price:long
+		///     Approval:bool
 		/// }
 		/// 
 		/// </remarks>
 		/// <response code="200"> Good</response>
 		/// <response code="400"> Bad</response>
 		[Authorize]
-		[HttpPut("Approval", Name = "Approval")]
-		public IActionResult ApproveProperty()
+		[HttpPut("ApproveSale", Name = "Approval")]
+		public IActionResult ApprovePropertySale([FromBody] SaleApprovalDto saleApprovalDto)
 		{
-			return (Ok());
+			try
+			{
+				_propertyManagerService.ApprovePropertySale(saleApprovalDto);
+				return Ok();
+			}
+			catch(Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
 		}
 
-        /// <summary>
+		/// <summary>
+		/// ApproveSale
+		/// </summary>
+		/// <returns>200 or a 400</returns>
+		/// <remarks>
+		/// 
+		/// Body requires propertyId, sellerId, buyerId, price, approval
+		/// 
+		/// {
+		///     PropertyId:long
+		///     BuyerId:long
+		///     SellerId:long
+		///     Price:long
+		///     Approval:bool
+		/// }
+		/// 
+		/// </remarks>
+		/// <response code="200"> Good</response>
+		/// <response code="400"> Bad</response>
+		[Authorize]
+		[HttpPut("ApproveRental", Name = "Approval")]
+		public IActionResult ApprovePropertyRental([FromBody] RentalApprovalDto rentalApprovalDto)
+		{
+			try
+			{
+				_propertyManagerService.ApprovePropertyRental(rentalApprovalDto);
+				return Ok();
+			}
+			catch(Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
+		}
+
+
+		/// <summary>
 		/// Used to get all properties
 		/// </summary>
 		/// <returns>Returns all properties</returns>

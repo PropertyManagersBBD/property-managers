@@ -15,6 +15,8 @@ namespace Backend.DTOs
     public decimal Price { get; set; }
     public bool IsActive { get; set; }
 
+    public RentalContract() { }
+
     public RentalContract(long id, long propertyId, long landlordId, long tenantId,int capacity, decimal price, bool isActive)
     {
       Id = id;

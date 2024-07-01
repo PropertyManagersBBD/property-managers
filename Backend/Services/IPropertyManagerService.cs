@@ -15,6 +15,8 @@ namespace Backend.Services
 		long GetPropertyOwner(long propertyId);
 		void ListForSale(long Id);
 		void ListForRent(long Id);
-    }
+		bool ApprovePropertySale(SaleApprovalDto approvalDto);
+		bool ApprovePropertyRental(RentalApprovalDto approvalDto);
+	}
 	
 }

@@ -14,6 +14,8 @@ namespace Backend.DTOs
     public int Capacity { get; set; }
     public decimal Price { get; set; }
 
+    public SaleContract() { }
+
     public SaleContract(long id, long propertyId, long sellerId, long buyerId,int capacity, decimal price)
     {
       Id = id;

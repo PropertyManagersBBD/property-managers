@@ -149,5 +149,33 @@ namespace Backend.Services
 			
 			return result;
 		}
+
+		public bool ApprovePropertySale(SaleApprovalDto approvalDto)
+		{
+			var saleContract = approvalDto.ToSaleContract();
+			var property = _propertyManagerContext.Properties.Where(p => p.Id == approvalDto.PropertyId).FirstOrDefault();
+
+			if ((saleContract == null) || (property==null)) return false;
+
+			_propertyManagerContext.SaleContracts.Add(saleContract);
+			property.OwnerId = approvalDto.BuyerId;
+
+			_propertyManagerContext.SaveChanges();
+
+			return true;
+		}
+
+		public bool ApprovePropertyRental(RentalApprovalDto approvalDto)
+		{
+			var contract = approvalDto.ToRentalContract();
+
+			if (contract == null) return false;
+			_propertyManagerContext.RentalContracts.Add(contract);
+
+			_propertyManagerContext.SaveChanges();
+
+			return true;
+		}
+
 	}
 }

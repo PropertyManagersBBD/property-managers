@@ -2,8 +2,8 @@ name: Deploy Property Manager Admin Dashboard
 
 on:
   push:
-    # branches:
-    # - main
+    branches:
+    - main
     paths:
     - 'frontend/**'
   workflow_dispatch:

@@ -6,9 +6,9 @@ namespace Backend.Services
 	{
 		void SpawnProperties();
 		List<Property> GetTop5Properties();
-		List<Property> GetAllProperties(int pageNumber);
-		List<SaleContract> GetAllSaleContracts(int pageNumber);
-		List<RentalContract> GetAllRentalContracts(int pageNumber);
+		List<Property> GetAllProperties(int pageNumber, int pageSize);
+		List<SaleContract> GetAllSaleContracts(int pageNumber, int PageSize);
+		List<RentalContract> GetAllRentalContracts(int pageNumber, int PageSize);
 		void SetPrice(decimal newPrice);
         decimal GetPrice(int size);
         long GetProperty(int size, bool ToRent);

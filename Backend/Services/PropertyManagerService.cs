@@ -118,10 +118,10 @@ namespace Backend.Services
 			}
 		}
 
-		public List<Property> GetAllProperties(int pageNumber) {
+		public List<Property> GetAllProperties(int pageNumber, int pageSize) {
 			var properties = _propertyManagerContext.Properties.ToList().OrderBy(x => x.Id)
-			.Skip((pageNumber - 1) * 7)
-			.Take(7)
+			.Skip((pageNumber - 1) * pageSize)
+			.Take(pageSize)
 			.ToList();
 
 			var result = properties.Select(prop => new Property(prop.Id, prop.OwnerId, prop.Capacity, prop.ListedForSale, prop.ListedForRent, prop.Pending)).ToList();
@@ -129,20 +129,20 @@ namespace Backend.Services
 			return result;
 		}
 
-		public List<SaleContract> GetAllSaleContracts(int pageNumber){
+		public List<SaleContract> GetAllSaleContracts(int pageNumber, int pageSize){
 			var saleContracts = (from p in _propertyManagerContext.Properties join s in _propertyManagerContext.SaleContracts on p.Id equals s.PropertyId select new {s.Id, s.PropertyId, s.SellerId, s.BuyerId, p.Capacity, s.Price}).ToList()
-			.Skip((pageNumber - 1) * 7)
-			.Take(7)
+			.Skip((pageNumber - 1) * pageSize)
+			.Take(pageSize)
 			.ToList();
 
 			var result = saleContracts.Select(s => new SaleContract(s.Id, s.PropertyId, s.SellerId, s.BuyerId, s.Capacity, s.Price)).ToList();
 			
 			return result;
 		}
-		public List<RentalContract> GetAllRentalContracts(int pageNumber){
+		public List<RentalContract> GetAllRentalContracts(int pageNumber, int pageSize){
 			var rentalContracts = (from p in _propertyManagerContext.Properties join r in _propertyManagerContext.RentalContracts on p.Id equals r.PropertyId select new {r.Id, r.PropertyId, r.LandlordId, r.TenantId, p.Capacity, r.Rent, r.IsActive}).ToList()
-			.Skip((pageNumber - 1) * 7)
-			.Take(7)
+			.Skip((pageNumber - 1) * pageSize)
+			.Take(pageSize)
 			.ToList();
 
 			var result = rentalContracts.Select(r => new RentalContract(r.Id, r.PropertyId, r.LandlordId, r.TenantId, r.Capacity, r.Rent, r.IsActive)).ToList();

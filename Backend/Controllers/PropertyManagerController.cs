@@ -238,12 +238,12 @@ namespace Backend.Controllers
 		/// <response code="400"> 
 		/// Will return the error
 		/// </response>
-		[HttpGet("Properties/{PageNumber}", Name ="GetAllProperties")]
-		public IActionResult GetAllProperties(int PageNumber)
+		[HttpGet("Properties", Name ="GetAllProperties")]
+		public IActionResult GetAllProperties(int PageNumber, int PageSize)
 		{
             try
             {
-                List<Property> properties = _propertyManagerService.GetAllProperties(PageNumber);
+                List<Property> properties = _propertyManagerService.GetAllProperties(PageNumber, PageSize);
                 return Ok(properties);
             } catch(Exception ex)
             {
@@ -266,12 +266,12 @@ namespace Backend.Controllers
 		/// <response code="400"> 
 		/// Will return the error
 		/// </response>
-		[HttpGet("SaleContracts/{PageNumber}", Name ="GetAllSaleContracts")]
-		public IActionResult GetAllSaleContracts(int PageNumber)
+		[HttpGet("SaleContracts", Name ="GetAllSaleContracts")]
+		public IActionResult GetAllSaleContracts(int PageNumber, int PageSize)
 		{
             try
             {
-                List<SaleContract> saleContracts = _propertyManagerService.GetAllSaleContracts(PageNumber);
+                List<SaleContract> saleContracts = _propertyManagerService.GetAllSaleContracts(PageNumber, PageSize);
                 return Ok(saleContracts);
             } catch(Exception ex)
             {
@@ -294,12 +294,12 @@ namespace Backend.Controllers
 		/// <response code="400"> 
 		/// Will return the error
 		/// </response>
-		[HttpGet("RentalContracts/{PageNumber}", Name ="GetAllRentalContracts")]
-		public IActionResult GetAllRentalContracts(int PageNumber)
+		[HttpGet("RentalContracts", Name ="GetAllRentalContracts")]
+		public IActionResult GetAllRentalContracts(int PageNumber, int PageSize)
 		{
             try
             {
-                List<RentalContract> rentalContracts = _propertyManagerService.GetAllRentalContracts(PageNumber);
+                List<RentalContract> rentalContracts = _propertyManagerService.GetAllRentalContracts(PageNumber, PageSize);
                 return Ok(rentalContracts);
             } catch(Exception ex)
             {

@@ -235,27 +235,27 @@ namespace Backend.Controllers
 		}
 
         /// <summary>
-		/// Used to get all properties
+		/// Used to get properties
 		/// </summary>
-		/// <returns>Returns all properties</returns>
+		/// <returns>Returns properties according to filter</returns>
 		/// <remarks>
 		/// 
-		/// Takes in a page number with pages starting from 1 to provide a manageable amount of data at a time
+		/// Takes in a page number and page size with pages starting from 1 to provide a manageable amount of data at a time can also take in Id, Owner Id and Capacity
 		///
 		/// </remarks>
 		/// <response code="200">
-		/// Will return a list of all the properties.
+		/// Will return a list of properties.
 		/// </response>
 		/// <response code="400"> 
 		/// Will return the error
 		/// </response>
-		[Authorize]
-		[HttpGet("Properties/{PageNumber}", Name ="GetAllProperties")]
-		public IActionResult GetAllProperties(int PageNumber)
+    [Authorize]
+		[HttpGet("Properties", Name ="GetProperties")]
+		public IActionResult GetProperties(int PageNumber, int PageSize, long? Id, long? OwnerId, int? Capacity)
 		{
             try
             {
-                List<Property> properties = _propertyManagerService.GetAllProperties(PageNumber);
+                List<Property> properties = _propertyManagerService.GetProperties(PageNumber, PageSize, Id, OwnerId, Capacity);
                 return Ok(properties);
             } catch(Exception ex)
             {
@@ -264,27 +264,27 @@ namespace Backend.Controllers
 		}
 
         /// <summary>
-		/// Used to get all sale contracts
+		/// Used to get sale contracts
 		/// </summary>
-		/// <returns>Returns all sale contracts</returns>
+		/// <returns>Returns sale contracts according to filter</returns>
 		/// <remarks>
 		/// 
-		/// Takes in a page number with pages starting from 1 to provide a manageable amount of data at a time
+		/// Takes in a page number with pages starting from 1 to provide a manageable amount of data at a time can also take in Id, Property Id and Capacity
 		///
 		/// </remarks>
 		/// <response code="200">
-		/// Will return a list of all the sale contracts.
+		/// Will return a list of sale contracts.
 		/// </response>
 		/// <response code="400"> 
 		/// Will return the error
 		/// </response>
-		[Authorize]
-		[HttpGet("SaleContracts/{PageNumber}", Name ="GetAllSaleContracts")]
-		public IActionResult GetAllSaleContracts(int PageNumber)
+    [Authorize]
+		[HttpGet("SaleContracts", Name ="GetSaleContracts")]
+		public IActionResult GetSaleContracts(int PageNumber, int PageSize, long? Id, long? OwnerId, int? Capacity)
 		{
             try
             {
-                List<SaleContract> saleContracts = _propertyManagerService.GetAllSaleContracts(PageNumber);
+                List<SaleContract> saleContracts = _propertyManagerService.GetSaleContracts(PageNumber, PageSize, Id, OwnerId, Capacity);
                 return Ok(saleContracts);
             } catch(Exception ex)
             {
@@ -293,27 +293,28 @@ namespace Backend.Controllers
 		}
 
         /// <summary>
-		/// Used to get all rental contracts
+		/// Used to get rental contracts
 		/// </summary>
-		/// <returns>Returns all rental contracts</returns>
+		/// <returns>Returns rental contracts according to filter</returns>
 		/// <remarks>
 		/// 
-		/// Takes in a page number with pages starting from 1 to provide a manageable amount of data at a time
+		/// Takes in a page number with pages starting from 1 to provide a manageable amount of data at a time can also take in Id, Property Id and Capacity
 		///
 		/// </remarks>
 		/// <response code="200">
-		/// Will return a list of all the rental contracts.
+		/// Will return a list of rental contracts.
 		/// </response>
 		/// <response code="400"> 
 		/// Will return the error
 		/// </response>
-		[Authorize]
-		[HttpGet("RentalContracts/{PageNumber}", Name ="GetAllRentalContracts")]
-		public IActionResult GetAllRentalContracts(int PageNumber)
+    [Authorize]
+		[HttpGet("RentalContracts", Name ="GetRentalContracts")]
+		public IActionResult GetRentalContracts(int PageNumber, int PageSize, long? Id, long? PropertyId, int? Capacity)
+
 		{
             try
             {
-                List<RentalContract> rentalContracts = _propertyManagerService.GetAllRentalContracts(PageNumber);
+                List<RentalContract> rentalContracts = _propertyManagerService.GetRentalContracts(PageNumber, PageSize, Id, PropertyId, Capacity);
                 return Ok(rentalContracts);
             } catch(Exception ex)
             {

@@ -224,16 +224,16 @@ namespace Backend.Controllers
 		}
 
         /// <summary>
-		/// Used to get all properties
+		/// Used to get properties
 		/// </summary>
-		/// <returns>Returns all properties</returns>
+		/// <returns>Returns properties according to filter</returns>
 		/// <remarks>
 		/// 
-		/// Takes in a page number and page size with pages starting from 1 to provide a manageable amount of data at a time
+		/// Takes in a page number and page size with pages starting from 1 to provide a manageable amount of data at a time can also take in Id, Owner Id and Capacity
 		///
 		/// </remarks>
 		/// <response code="200">
-		/// Will return a list of all the properties.
+		/// Will return a list of properties.
 		/// </response>
 		/// <response code="400"> 
 		/// Will return the error
@@ -252,16 +252,16 @@ namespace Backend.Controllers
 		}
 
         /// <summary>
-		/// Used to get all sale contracts
+		/// Used to get sale contracts
 		/// </summary>
-		/// <returns>Returns all sale contracts</returns>
+		/// <returns>Returns sale contracts according to filter</returns>
 		/// <remarks>
 		/// 
-		/// Takes in a page number with pages starting from 1 to provide a manageable amount of data at a time
+		/// Takes in a page number with pages starting from 1 to provide a manageable amount of data at a time can also take in Id, Property Id and Capacity
 		///
 		/// </remarks>
 		/// <response code="200">
-		/// Will return a list of all the sale contracts.
+		/// Will return a list of sale contracts.
 		/// </response>
 		/// <response code="400"> 
 		/// Will return the error
@@ -280,16 +280,16 @@ namespace Backend.Controllers
 		}
 
         /// <summary>
-		/// Used to get all rental contracts
+		/// Used to get rental contracts
 		/// </summary>
-		/// <returns>Returns all rental contracts</returns>
+		/// <returns>Returns rental contracts according to filter</returns>
 		/// <remarks>
 		/// 
-		/// Takes in a page number with pages starting from 1 to provide a manageable amount of data at a time
+		/// Takes in a page number with pages starting from 1 to provide a manageable amount of data at a time can also take in Id, Property Id and Capacity
 		///
 		/// </remarks>
 		/// <response code="200">
-		/// Will return a list of all the rental contracts.
+		/// Will return a list of rental contracts.
 		/// </response>
 		/// <response code="400"> 
 		/// Will return the error

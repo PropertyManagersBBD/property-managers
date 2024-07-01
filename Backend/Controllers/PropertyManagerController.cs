@@ -1,5 +1,7 @@
 ﻿using Backend.DTOs;
 using Backend.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Diagnostics;
@@ -9,7 +11,9 @@ namespace Backend.Controllers
 	/// <summary>
 	/// Property manager controller
 	/// </summary>
+	//[Authorize]
 	[ApiController]
+	[EnableCors("_myAllowSpecificOrigins")]
 	[Route("PropertyManager")]
 	public class PropertyManagerController : ControllerBase
 	{
@@ -35,6 +39,7 @@ namespace Backend.Controllers
 		/// </remarks>
 		/// <response code="200"> The new price per unit was set </response>
 		/// <response code="400"> An error occurred, so the old price per unit was used </response>
+		[Authorize]
 		[HttpPut("SetPrice/{newPrice}", Name = "Set Price per housing unit")]
 		public IActionResult SetPrice(decimal newPrice)
 		{
@@ -64,6 +69,7 @@ namespace Backend.Controllers
 		/// </remarks>
 		/// <response code="200"> Good </response>
 		/// <response code="400"> Bad</response>
+		[Authorize]
 		[HttpPut("Property", Name = "RequestProperty")]
 		public IActionResult GetProperties([FromBody] RequestProperty requestProperty)
 		{
@@ -114,6 +120,7 @@ namespace Backend.Controllers
 		/// Will return:
 		/// "Property {propertyId} does not exist"
 		/// </response>
+		[Authorize]
 		[HttpGet("Owner/{propertyID}", Name ="GetOwner")]
 		public IActionResult GetOwner(long propertyID)
 		{
@@ -139,7 +146,8 @@ namespace Backend.Controllers
         /// </remarks>
         /// <response code="200"> Good </response>
         /// <response code="400"> Bad</response>
-        [HttpPost("Sell", Name = "SellProperty")]
+		[Authorize]
+		[HttpPost("Sell", Name = "SellProperty")]
         public IActionResult SellProperty(int Id)
         {
             try
@@ -154,18 +162,19 @@ namespace Backend.Controllers
 		}
 
 		/// <summary>
-        /// test end point to check if service is alive
-        /// </summary>
-        /// 
-        /// <returns>200 or a 500</returns>
-        /// <remarks>
-        /// 
-        /// 
-        ///
-        /// </remarks>
-        /// <response code="200"> Good </response>
-        /// <response code="400"> Bad</response>
-        [HttpGet("ping", Name="Ping")]
+		/// test end point to check if service is alive
+		/// </summary>
+		/// 
+		/// <returns>200 or a 500</returns>
+		/// <remarks>
+		/// 
+		/// 
+		///
+		/// </remarks>
+		/// <response code="200"> Good </response>
+		/// <response code="400"> Bad</response>
+		//[Authorize]
+		[HttpGet("ping", Name="Ping")]
         public IActionResult ping()
         {
             return (Ok("pong"));
@@ -184,7 +193,8 @@ namespace Backend.Controllers
         /// </remarks>
         /// <response code="200"> Good </response>
         /// <response code="400"> Bad</response>
-        [HttpPost("Rent", Name = "RentProperty")]
+		[Authorize]
+		[HttpPost("Rent", Name = "RentProperty")]
         public IActionResult RentProperty(int Id)
         {
             try
@@ -217,6 +227,7 @@ namespace Backend.Controllers
 		/// </remarks>
 		/// <response code="200"> Good</response>
 		/// <response code="400"> Bad</response>
+		[Authorize]
 		[HttpPut("Approval", Name = "Approval")]
 		public IActionResult ApproveProperty()
 		{
@@ -224,26 +235,27 @@ namespace Backend.Controllers
 		}
 
         /// <summary>
-		/// Used to get all properties
+		/// Used to get properties
 		/// </summary>
-		/// <returns>Returns all properties</returns>
+		/// <returns>Returns properties according to filter</returns>
 		/// <remarks>
 		/// 
-		/// Takes in a page number with pages starting from 1 to provide a manageable amount of data at a time
+		/// Takes in a page number and page size with pages starting from 1 to provide a manageable amount of data at a time can also take in Id, Owner Id and Capacity
 		///
 		/// </remarks>
 		/// <response code="200">
-		/// Will return a list of all the properties.
+		/// Will return a list of properties.
 		/// </response>
 		/// <response code="400"> 
 		/// Will return the error
 		/// </response>
-		[HttpGet("Properties/{PageNumber}", Name ="GetAllProperties")]
-		public IActionResult GetAllProperties(int PageNumber)
+    [Authorize]
+		[HttpGet("Properties", Name ="GetProperties")]
+		public IActionResult GetProperties(int PageNumber, int PageSize, long? Id, long? OwnerId, int? Capacity)
 		{
             try
             {
-                List<Property> properties = _propertyManagerService.GetAllProperties(PageNumber);
+                List<Property> properties = _propertyManagerService.GetProperties(PageNumber, PageSize, Id, OwnerId, Capacity);
                 return Ok(properties);
             } catch(Exception ex)
             {
@@ -252,26 +264,27 @@ namespace Backend.Controllers
 		}
 
         /// <summary>
-		/// Used to get all sale contracts
+		/// Used to get sale contracts
 		/// </summary>
-		/// <returns>Returns all sale contracts</returns>
+		/// <returns>Returns sale contracts according to filter</returns>
 		/// <remarks>
 		/// 
-		/// Takes in a page number with pages starting from 1 to provide a manageable amount of data at a time
+		/// Takes in a page number with pages starting from 1 to provide a manageable amount of data at a time can also take in Id, Property Id and Capacity
 		///
 		/// </remarks>
 		/// <response code="200">
-		/// Will return a list of all the sale contracts.
+		/// Will return a list of sale contracts.
 		/// </response>
 		/// <response code="400"> 
 		/// Will return the error
 		/// </response>
-		[HttpGet("SaleContracts/{PageNumber}", Name ="GetAllSaleContracts")]
-		public IActionResult GetAllSaleContracts(int PageNumber)
+    [Authorize]
+		[HttpGet("SaleContracts", Name ="GetSaleContracts")]
+		public IActionResult GetSaleContracts(int PageNumber, int PageSize, long? Id, long? OwnerId, int? Capacity)
 		{
             try
             {
-                List<SaleContract> saleContracts = _propertyManagerService.GetAllSaleContracts(PageNumber);
+                List<SaleContract> saleContracts = _propertyManagerService.GetSaleContracts(PageNumber, PageSize, Id, OwnerId, Capacity);
                 return Ok(saleContracts);
             } catch(Exception ex)
             {
@@ -280,26 +293,28 @@ namespace Backend.Controllers
 		}
 
         /// <summary>
-		/// Used to get all rental contracts
+		/// Used to get rental contracts
 		/// </summary>
-		/// <returns>Returns all rental contracts</returns>
+		/// <returns>Returns rental contracts according to filter</returns>
 		/// <remarks>
 		/// 
-		/// Takes in a page number with pages starting from 1 to provide a manageable amount of data at a time
+		/// Takes in a page number with pages starting from 1 to provide a manageable amount of data at a time can also take in Id, Property Id and Capacity
 		///
 		/// </remarks>
 		/// <response code="200">
-		/// Will return a list of all the rental contracts.
+		/// Will return a list of rental contracts.
 		/// </response>
 		/// <response code="400"> 
 		/// Will return the error
 		/// </response>
-		[HttpGet("RentalContracts/{PageNumber}", Name ="GetAllRentalContracts")]
-		public IActionResult GetAllRentalContracts(int PageNumber)
+    [Authorize]
+		[HttpGet("RentalContracts", Name ="GetRentalContracts")]
+		public IActionResult GetRentalContracts(int PageNumber, int PageSize, long? Id, long? PropertyId, int? Capacity)
+
 		{
             try
             {
-                List<RentalContract> rentalContracts = _propertyManagerService.GetAllRentalContracts(PageNumber);
+                List<RentalContract> rentalContracts = _propertyManagerService.GetRentalContracts(PageNumber, PageSize, Id, PropertyId, Capacity);
                 return Ok(rentalContracts);
             } catch(Exception ex)
             {

@@ -13,7 +13,7 @@ const Layout = ({ children }) => {
       <section className="fullBody">
         <article className="sidebarWrapper">
 
-        <SideBar Selected={selected}/>
+        <SideBar Selected={selected} />
         </article>
         <main className="mainClass">{children}</main>
       </section>

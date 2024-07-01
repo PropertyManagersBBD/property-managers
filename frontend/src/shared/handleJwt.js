@@ -5,8 +5,7 @@ const getUsername=(()=>{
     if (parts.length !== 3) {
         throw new Error('Invalid JWT format');
     }
-
-    const payload = atob(parts[1].replace(/-/g, '+').replace(/_/g, '/'));
+    const payload = atob(parts[1]);
     const payloadObject = JSON.parse(payload);
     return(payloadObject["cognito:username"])
 })

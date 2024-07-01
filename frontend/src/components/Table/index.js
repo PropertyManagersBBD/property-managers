@@ -15,24 +15,67 @@ function ContentTable() {
   const location = useLocation();
   const [data, setData] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(7);
+  const [capacity, setCapacity] = useState();
+  const [propertyId, setPropertyId] = useState();
+  const [ownerId, setOwnerId] = useState();
   useEffect(() => {
     setLocation(location.pathname);
 
     if (location.pathname === "/") {
-      getProperties(pageNumber).then((returnData) => {
-        setData(returnData);
-      });
+      getProperties(pageNumber, pageSize, propertyId, ownerId, capacity).then(
+        (returnData) => {
+          setData(returnData);
+        }
+      );
     } else if (location.pathname === "/sales") {
-      getSalesContracts(pageNumber).then((returnData) => {
+      getSalesContracts(
+        pageNumber,
+        pageSize,
+        propertyId,
+        ownerId,
+        capacity
+      ).then((returnData) => {
         setData(returnData);
       });
     } else {
-      getRentalContracts(pageNumber).then((returnData) => {
+      getRentalContracts(
+        pageNumber,
+        pageSize,
+        ownerId,
+        propertyId,
+        capacity
+      ).then((returnData) => {
         setData(returnData);
       });
     }
-  }, [location.pathname, pageNumber]);
+  }, [location.pathname, pageNumber, propertyId, capacity, ownerId]);
 
+  const handleCapacityChange = (event) => {
+    if (event.target.value === "All") {
+      setCapacity(null);
+    } else {
+      setCapacity(event.target.value);
+    }
+  };
+
+  const handlePropertySearchChange = (event) => {
+    const target = event.target.value;
+    if (/^\d+$/.test(target)) {
+      setPropertyId(target);
+    } else if (target === "") {
+      setPropertyId(null);
+    }
+  };
+
+  const handleOwnerSearchChange = (event) => {
+    const target = event.target.value;
+    if (/^\d+$/.test(target)) {
+      setOwnerId(target);
+    } else if (target === "") {
+      setOwnerId(null);
+    }
+  };
   return (
     <article className="Wrapper">
       <section className="navButtons">
@@ -58,16 +101,22 @@ function ContentTable() {
       <section className="input-wrapper">
         <section className="SearchContainer">
           <input
-            id="searchInput"
+            id="PropertySearchInput"
             type="text"
-            placeholder="Search"
+            placeholder="Search Property ID"
             className="searchField"
+            onChange={handlePropertySearchChange}
           ></input>
           <SearchOutlinedIcon />
         </section>
 
         <article className="selectWrapper">
-          <select id="capacitySelect" name="capacity" className="selectField">
+          <select
+            id="capacitySelect"
+            name="capacity"
+            className="selectField"
+            onChange={handleCapacityChange}
+          >
             <option value="All">All</option>
             <option value="1">1</option>
             <option value="2">2</option>
@@ -81,14 +130,44 @@ function ContentTable() {
           <FilterListOutlinedIcon />
         </article>
 
-        <article className="selectWrapper">
-          <select id="contractSelect" name="contract" className="selectField">
-            <option value="All">All</option>
-            <option value="Rental">Rental</option>
-            <option value="Purchase">Purchase</option>
-          </select>
-          <FilterListOutlinedIcon />
-        </article>
+        {pageLocation === "/" && (
+          <section className="SearchContainer">
+            <input
+              id="OwnerIDSearchInput"
+              type="text"
+              placeholder="Search Owner ID"
+              className="searchField"
+              onChange={handleOwnerSearchChange}
+            ></input>
+            <SearchOutlinedIcon />
+          </section>
+        )}
+
+        {pageLocation === "/sales" && (
+          <section className="SearchContainer">
+            <input
+              id="SellerIDSearchInput"
+              type="text"
+              placeholder="Search Seller ID"
+              className="searchField"
+              onChange={handleOwnerSearchChange}
+            ></input>
+            <SearchOutlinedIcon />
+          </section>
+        )}
+
+        {pageLocation === "/rentals" && (
+          <section className="SearchContainer">
+            <input
+              id="landLordSearchInput"
+              type="text"
+              placeholder="Search Landlord ID"
+              className="searchField"
+              onChange={handlePropertySearchChange}
+            ></input>
+            <SearchOutlinedIcon />
+          </section>
+        )}
       </section>
 
       <article className="main-table">
@@ -118,7 +197,7 @@ function ContentTable() {
               })
             ) : (
               <article className="Error-Message">
-              <h2>There Seems To Be A Problem</h2>
+                <h2>There Seems To Be A Problem</h2>
               </article>
             )}
           </article>
@@ -148,7 +227,7 @@ function ContentTable() {
               ))
             ) : (
               <article className="Error-Message">
-              <h2>There Seems To Be A Problem</h2>
+                <h2>There Seems To Be A Problem</h2>
               </article>
             )}
           </article>
@@ -180,7 +259,7 @@ function ContentTable() {
               })
             ) : (
               <article className="Error-Message">
-              <h2>There Seems To Be A Problem</h2>
+                <h2>There Seems To Be A Problem</h2>
               </article>
             )}
           </article>

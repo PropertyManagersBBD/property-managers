@@ -9,7 +9,7 @@
     "/PropertyManager/SetPrice/{newPrice}": {
       "put": {
         "tags": [
-          "ProperyManager"
+          "PropertyManager"
         ],
         "summary": "Used to set the new price of the property",
         "description": "This is meant for the initial propery spawn\r\nOne path variable is expected, which is the new price per unit of housing.",
@@ -38,11 +38,30 @@
     "/PropertyManager/Property": {
       "put": {
         "tags": [
-          "ProperyManager"
+          "PropertyManager"
         ],
         "summary": "Used to get an available property of a given size",
-        "description": "body requires size\r\n\r\n{\r\n\tbody:int\r\n}",
+        "description": "body requires size\r\n\r\n{\r\n\tsize:int,\r\n\ttoRent: bool\r\n}",
         "operationId": "RequestProperty",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestProperty"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestProperty"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestProperty"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Good"
@@ -56,10 +75,10 @@
     "/PropertyManager/Owner/{propertyID}": {
       "get": {
         "tags": [
-          "ProperyManager"
+          "PropertyManager"
         ],
         "summary": "Used to get the owner ID of a given property",
-        "description": "requires the poperty ID in the url",
+        "description": "requires the property ID in the url",
         "operationId": "GetOwner",
         "parameters": [
           {
@@ -67,7 +86,36 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Will return the property owner's Id.\r\nAn Id of -1 indicates that the property is owned by the central revenue service."
+          },
+          "400": {
+            "description": "Will return:\r\n\"Property {propertyId} does not exist\""
+          }
+        }
+      }
+    },
+    "/PropertyManager/Sell": {
+      "post": {
+        "tags": [
+          "PropertyManager"
+        ],
+        "summary": "Used to list a property on the market to be sold",
+        "description": "Body requres the property ID",
+        "operationId": "SellProperty",
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
             }
           }
         ],
@@ -81,14 +129,14 @@
         }
       }
     },
-    "/PropertyManager/Sell": {
-      "post": {
+    "/PropertyManager/ping": {
+      "get": {
         "tags": [
-          "ProperyManager"
+          "PropertyManager"
         ],
-        "summary": "Used to list a property on the market to be sold",
-        "description": "Body requres ownerID",
-        "operationId": "SellProperty",
+        "summary": "test end point to check if service is alive",
+        "description": "",
+        "operationId": "Ping",
         "responses": {
           "200": {
             "description": "Good"
@@ -102,11 +150,21 @@
     "/PropertyManager/Rent": {
       "post": {
         "tags": [
-          "ProperyManager"
+          "PropertyManager"
         ],
         "summary": "Used to list a property on the market to be rented",
-        "description": "Body requres ownerID",
+        "description": "Body requres the property ID",
         "operationId": "RentProperty",
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Good"
@@ -120,7 +178,7 @@
     "/PropertyManager/Approval": {
       "put": {
         "tags": [
-          "ProperyManager"
+          "PropertyManager"
         ],
         "summary": "Transfers ownership of property or cancels transfer",
         "description": "Body requires propertyId, sellerId, buyerId, price, approval\r\n\r\n{\r\n    propertyId:long\r\n    sellerId:long\r\n    buyerId:long\r\n    price:string\r\n    approval:bool\r\n}",
@@ -136,5 +194,21 @@
       }
     }
   },
-  "components": { }
+  "components": {
+    "schemas": {
+      "RequestProperty": {
+        "type": "object",
+        "properties": {
+          "size": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "toRent": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
 }

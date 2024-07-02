@@ -277,9 +277,11 @@ namespace Backend.Services
 			var property = _propertyManagerContext.Properties.Where(p => p.Id == approvalDto.PropertyId).FirstOrDefault();
 
 			if ((saleContract == null) || (property==null)) return false;
+			if (saleContract.SellerId != property.OwnerId) return false;
 
 			_propertyManagerContext.SaleContracts.Add(saleContract);
 			property.OwnerId = approvalDto.BuyerId;
+			property.Pending = false;
 
 			_propertyManagerContext.SaveChanges();
 
@@ -289,9 +291,14 @@ namespace Backend.Services
 		public bool ApprovePropertyRental(RentalApprovalDto approvalDto)
 		{
 			var contract = approvalDto.ToRentalContract();
+			var property = _propertyManagerContext.Properties.Where(p => p.Id == approvalDto.PropertyId).FirstOrDefault();
 
-			if (contract == null) return false;
+			if (contract == null || property==null) return false;
+			if(contract.LandlordId != property.OwnerId) return false;
+
 			_propertyManagerContext.RentalContracts.Add(contract);
+			property.ListedForRent = contract.IsActive;
+			property.Pending = false;
 
 			_propertyManagerContext.SaveChanges();
 

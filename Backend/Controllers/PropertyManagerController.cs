@@ -232,8 +232,8 @@ namespace Backend.Controllers
 		{
 			try
 			{
-				_propertyManagerService.ApprovePropertySale(saleApprovalDto);
-				return Ok();
+				var ans = _propertyManagerService.ApprovePropertySale(saleApprovalDto);
+				return Ok(ans);
 			}
 			catch(Exception ex)
 			{
@@ -258,16 +258,16 @@ namespace Backend.Controllers
 		/// }
 		/// 
 		/// </remarks>
-		/// <response code="200"> Good</response>
-		/// <response code="400"> Bad</response>
+		/// <response code="200"> True or false, true for success, false if unsuccess </response>
+		/// <response code="400"> Something bad happened </response>
 		[Authorize]
 		[HttpPut("ApproveRental", Name = "ApproveRental")]
 		public IActionResult ApprovePropertyRental([FromBody] RentalApprovalDto rentalApprovalDto)
 		{
 			try
 			{
-				_propertyManagerService.ApprovePropertyRental(rentalApprovalDto);
-				return Ok();
+				var ans = _propertyManagerService.ApprovePropertyRental(rentalApprovalDto);
+				return Ok(ans);
 			}
 			catch(Exception ex)
 			{

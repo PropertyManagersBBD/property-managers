@@ -10,7 +10,7 @@
 
 		public Database.Models.SaleContract? ToSaleContract()
 		{
-			if(!Approval)
+			if(!Approval || Price<1)
 				return null;
 
 			return new Database.Models.SaleContract()

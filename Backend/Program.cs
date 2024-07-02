@@ -1,8 +1,12 @@
 using Backend.Database.Context;
 using Backend.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
+using System.Threading.RateLimiting;
 
 namespace Backend
 {
@@ -41,7 +45,7 @@ namespace Backend
 						Title = "Property Manager API",
 						Description = "Documentation for the Property Manager API",
 					});
-					
+
 					var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
 					var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
 					c.IncludeXmlComments(xmlPath);
@@ -57,7 +61,46 @@ namespace Backend
                                             .AllowAnyHeader();
                                   });
             });
-            var app = builder.Build();
+
+			// Rate limiting
+			var rateLimitingPolicyName = "fixed";
+			builder.Services.AddRateLimiter(_ => _
+			.AddFixedWindowLimiter(policyName: rateLimitingPolicyName, options =>
+			{
+				options.PermitLimit = 25;
+				options.Window = TimeSpan.FromSeconds(1);
+				options.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+				options.QueueLimit = 50;
+			}));
+
+			// Authentication
+			builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+				.AddJwtBearer(options =>
+				{
+					options.Authority = Environment.GetEnvironmentVariable("COGNITO_PROPMAN_Authority");
+
+					options.Audience = Environment.GetEnvironmentVariable("COGNITO_PROPMAN_ClientId");
+
+					options.TokenValidationParameters = new TokenValidationParameters
+					{
+						ValidateIssuer = true,
+						ValidIssuer = Environment.GetEnvironmentVariable("COGNITO_PROPMAN_Authority"),
+
+						ValidateAudience = true,
+						ValidAudience = Environment.GetEnvironmentVariable("COGNITO_PROPMAN_ClientId"),
+
+						ValidateIssuerSigningKey = true,
+						IssuerSigningKeyResolver = (token, securityToken, kid, parameters) =>
+						{
+							// Fetch the JSON Web Key Set (JWKS) from the authority and find the matching key.
+							var jwks = GetJsonWebKeySetAsync().GetAwaiter().GetResult();
+							return jwks.Keys.Where(k => k.KeyId == kid);
+						},
+						ValidateLifetime = true
+					};
+				});
+
+			var app = builder.Build();
 
 			// Configure the HTTP request pipeline.
 			if(app.Environment.IsDevelopment())
@@ -65,14 +108,27 @@ namespace Backend
 				app.UseSwagger();
 				app.UseSwaggerUI();
 			}
-            app.UseCors(MyAllowSpecificOrigins);
+			app.UseCors(MyAllowSpecificOrigins);
             app.UseHttpsRedirection();
 
+			app.UseAuthentication(); // Ensure this comes before UseAuthorization
 			app.UseAuthorization();
+			// Rate limiting
+			app.UseRateLimiter();
 
-			app.MapControllers();
+			app.MapControllers().RequireRateLimiting(rateLimitingPolicyName);
 
 			app.Run();
+
+			async Task<JsonWebKeySet> GetJsonWebKeySetAsync()
+			{
+				var authority = Environment.GetEnvironmentVariable("COGNITO_PROPMAN_Authority");
+				using(var httpClient = new HttpClient())
+				{
+					var response = await httpClient.GetStringAsync($"{authority}/.well-known/jwks.json");
+					return new JsonWebKeySet(response);
+				}
+			}
 		}
 	}
 }

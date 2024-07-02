@@ -41,7 +41,7 @@ namespace Backend.Controllers
 		/// <response code="400"> An error occurred, so the old price per unit was used </response>
 		[Authorize]
 		[HttpPut("SetPrice/{newPrice}", Name = "Set Price per housing unit")]
-		public IActionResult SetPrice(decimal newPrice)
+		public IActionResult SetPrice(long newPrice)
 		{
 			try
 			{
@@ -337,13 +337,13 @@ namespace Backend.Controllers
 		/// <response code="400"> 
 		/// Will return the error
 		/// </response>
-		[Authorize]
+		//[Authorize]
 		[HttpPost("Properties/Owners", Name ="GetPropertiesByOwners")]
 		public IActionResult GetPropertiesByOwners(long[] ownerIds)
 		{
             try
             {
-                List<Property> properties = _propertyManagerService.GetPropertiesByOwners(ownerIds);
+                List<PropertySummary> properties = _propertyManagerService.GetPropertiesByOwners(ownerIds);
                 return Ok(properties);
             } catch(Exception ex)
             {

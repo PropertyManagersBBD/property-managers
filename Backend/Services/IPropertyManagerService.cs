@@ -9,9 +9,9 @@ namespace Backend.Services
 		List<Property> GetProperties(int pageNumber, int pageSize, long? Id, long? OwnerId, int? Capacity);
 		List<SaleContract> GetSaleContracts(int pageNumber, int pageSize, long? Id, long? PropertyId, int? Capacity);
 		List<RentalContract> GetRentalContracts(int pageNumber, int pageSize, long? Id, long? PropertyId, int? Capacity);
-		List<Property> GetPropertiesByOwners(long[] ownerIds);
-		void SetPrice(decimal newPrice);
-        decimal GetPrice(int size);
+		List<PropertySummary> GetPropertiesByOwners(long[] ownerIds);
+		void SetPrice(long newPrice);
+        long GetPrice(int size);
         long GetProperty(int size, bool ToRent);
 		long GetPropertyOwner(long propertyId);
 		void ListForSale(long Id);

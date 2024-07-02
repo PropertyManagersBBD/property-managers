@@ -12,9 +12,11 @@ namespace Backend.DTOs
     public long SellerId { get; set; }
     public long BuyerId { get; set; }
     public int Capacity { get; set; }
-    public decimal Price { get; set; }
+    public long Price { get; set; }
 
-    public SaleContract(long id, long propertyId, long sellerId, long buyerId,int capacity, decimal price)
+    public SaleContract() { }
+
+    public SaleContract(long id, long propertyId, long sellerId, long buyerId,int capacity, long price)
     {
       Id = id;
       PropertyId = propertyId;

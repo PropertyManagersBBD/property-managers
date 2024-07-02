@@ -279,5 +279,27 @@ namespace Backend.Services
 			
 			return result;
 		}
+
+		public void DailyUpdate(Deaths[] deaths) {
+			var properties = new List<PropertySummary>();
+			var entity = new Database.Models.Property();
+			foreach (var death in deaths){
+				properties = GetPropertiesByOwners([death.deceased]);
+				foreach (var property in properties){
+					Database.Models.SaleContract saleContract = new Database.Models.SaleContract{ PropertyId = property.Id ?? -1, BuyerId = death.next_of_kin, SellerId = death.deceased, Price = 0};
+					_propertyManagerContext.SaleContracts.Add(saleContract);
+					entity = _propertyManagerContext.Properties.FirstOrDefault(item => item.Id == property.Id);
+					if(entity != null)
+					{
+						entity.OwnerId = death.next_of_kin;
+					}
+				}
+			}
+			try {
+				_propertyManagerContext.SaveChanges();
+			} catch(Exception e) {
+				throw new Exception(e.Message);
+			}
+		}		
 	}
 }

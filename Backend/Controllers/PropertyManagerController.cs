@@ -249,7 +249,7 @@ namespace Backend.Controllers
 		/// <response code="400"> 
 		/// Will return the error
 		/// </response>
-    [Authorize]
+    	[Authorize]
 		[HttpGet("Properties", Name ="GetProperties")]
 		public IActionResult GetProperties(int PageNumber, int PageSize, long? Id, long? OwnerId, int? Capacity)
 		{
@@ -278,7 +278,7 @@ namespace Backend.Controllers
 		/// <response code="400"> 
 		/// Will return the error
 		/// </response>
-    [Authorize]
+    	[Authorize]
 		[HttpGet("SaleContracts", Name ="GetSaleContracts")]
 		public IActionResult GetSaleContracts(int PageNumber, int PageSize, long? Id, long? OwnerId, int? Capacity)
 		{
@@ -307,7 +307,7 @@ namespace Backend.Controllers
 		/// <response code="400"> 
 		/// Will return the error
 		/// </response>
-    [Authorize]
+    	[Authorize]
 		[HttpGet("RentalContracts", Name ="GetRentalContracts")]
 		public IActionResult GetRentalContracts(int PageNumber, int PageSize, long? Id, long? PropertyId, int? Capacity)
 
@@ -345,6 +345,35 @@ namespace Backend.Controllers
             {
                 List<PropertySummary> properties = _propertyManagerService.GetPropertiesByOwners(ownerIds);
                 return Ok(properties);
+            } catch(Exception ex)
+            {
+                return BadRequest($"{ex.Message}");
+            }
+		}
+
+		/// <summary>
+		/// Used to transfer ownership to next of kin upon deaths
+		/// </summary>
+		/// <returns>Returns a list of sale contracts</returns>
+		/// <remarks>
+		/// 
+		/// Takes in a list of owner Ids
+		///
+		/// </remarks>
+		/// <response code="200">
+		/// Will return a list of properties.
+		/// </response>
+		/// <response code="400"> 
+		/// Will return the error
+		/// </response>
+		[Authorize]
+		[HttpPost("dailyUpdate", Name ="DeathTransfer")]
+		public IActionResult DeathTransfer(DailyUpdateModel dailyUpdateModel)
+		{
+            try
+            {
+				_propertyManagerService.DailyUpdate(dailyUpdateModel.deaths);
+                return Ok("Death transfers completed succesfully");
             } catch(Exception ex)
             {
                 return BadRequest($"{ex.Message}");

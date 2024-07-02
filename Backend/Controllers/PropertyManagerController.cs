@@ -291,11 +291,7 @@ namespace Backend.Controllers
 		/// <response code="400"> 
 		/// Will return the error
 		/// </response>
-<<<<<<< AGO/end-points
-    	[Authorize]
-=======
 		//[Authorize]
->>>>>>> main
 		[HttpGet("Properties", Name ="GetProperties")]
 		public IActionResult GetProperties(int PageNumber, int PageSize, long? Id, long? OwnerId, int? Capacity)
 		{
@@ -324,11 +320,7 @@ namespace Backend.Controllers
 		/// <response code="400"> 
 		/// Will return the error
 		/// </response>
-<<<<<<< AGO/end-points
-    	[Authorize]
-=======
 		//[Authorize]
->>>>>>> main
 		[HttpGet("SaleContracts", Name ="GetSaleContracts")]
 		public IActionResult GetSaleContracts(int PageNumber, int PageSize, long? Id, long? OwnerId, int? Capacity)
 		{
@@ -357,11 +349,7 @@ namespace Backend.Controllers
 		/// <response code="400"> 
 		/// Will return the error
 		/// </response>
-<<<<<<< AGO/end-points
-    	[Authorize]
-=======
 		//[Authorize]
->>>>>>> main
 		[HttpGet("RentalContracts", Name ="GetRentalContracts")]
 		public IActionResult GetRentalContracts(int PageNumber, int PageSize, long? Id, long? PropertyId, int? Capacity)
 

@@ -271,7 +271,6 @@ namespace Backend.Services
 			return result;
 		}
 
-<<<<<<< AGO/end-points
 		public List<PropertySummary> GetPropertiesByOwners(long[] ownerIds) {
 			var properties = _propertyManagerContext.Properties.Where(x => ownerIds.Contains(x.OwnerId)).OrderBy(x => x.Id)
 				.ToList();
@@ -302,7 +301,6 @@ namespace Backend.Services
 				throw new Exception(e.Message);
 			}
 		}		
-=======
 		public bool ApprovePropertySale(SaleApprovalDto approvalDto)
 		{
 			if(!approvalDto.Approval) return false;
@@ -344,6 +342,5 @@ namespace Backend.Services
 			return true;
 		}
 
->>>>>>> main
 	}
 }

@@ -354,14 +354,14 @@ namespace Backend.Controllers
 		/// <summary>
 		/// Used to transfer ownership to next of kin upon deaths
 		/// </summary>
-		/// <returns>Returns a list of sale contracts</returns>
+		/// <returns>Returns a confirmation on if it was run correctly</returns>
 		/// <remarks>
 		/// 
 		/// Takes in a list of owner Ids
 		///
 		/// </remarks>
 		/// <response code="200">
-		/// Will return a list of properties.
+		/// Will return a confirmation of having run.
 		/// </response>
 		/// <response code="400"> 
 		/// Will return the error

@@ -41,7 +41,7 @@ namespace Backend.Controllers
 		/// <response code="400"> An error occurred, so the old price per unit was used </response>
 		[Authorize]
 		[HttpPut("SetPrice/{newPrice}", Name = "Set Price per housing unit")]
-		public IActionResult SetPrice(decimal newPrice)
+		public IActionResult SetPrice(long newPrice)
 		{
 			try
 			{
@@ -77,7 +77,7 @@ namespace Backend.Controllers
 			{
 				if(requestProperty.size > 0 && requestProperty.size <= 8)
 				{
-					decimal price = _propertyManagerService.GetPrice(requestProperty.size);
+					long price = _propertyManagerService.GetPrice(requestProperty.size);
 
 					long propertyId = _propertyManagerService.GetProperty(requestProperty.size, requestProperty.toRent);
 

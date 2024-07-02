@@ -12,12 +12,12 @@ namespace Backend.DTOs
     public long LandlordId { get; set; }
     public long TenantId { get; set; }
     public int Capacity { get; set; }
-    public decimal Price { get; set; }
+    public long Price { get; set; }
     public bool IsActive { get; set; }
 
     public RentalContract() { }
 
-    public RentalContract(long id, long propertyId, long landlordId, long tenantId,int capacity, decimal price, bool isActive)
+    public RentalContract(long id, long propertyId, long landlordId, long tenantId,int capacity, long price, bool isActive)
     {
       Id = id;
       PropertyId = propertyId;

@@ -17,8 +17,7 @@ public partial class SaleContract
 
     public long SellerId { get; set; }
 
-    [Column(TypeName = "money")]
-    public decimal Price { get; set; }
+    public long Price { get; set; }
 
     [ForeignKey("PropertyId")]
     [InverseProperty("SaleContracts")]

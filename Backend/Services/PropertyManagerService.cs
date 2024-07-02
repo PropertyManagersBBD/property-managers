@@ -9,7 +9,7 @@ namespace Backend.Services
 	public class PropertyManagerService : IPropertyManagerService
 	{
 		private readonly PropertyManagerContext _propertyManagerContext;
-		private static decimal LatestPricePerUnit { get; set; }
+		private static long LatestPricePerUnit { get; set; }
 
 		public PropertyManagerService(PropertyManagerContext propertyManagerContext)
 		{
@@ -49,7 +49,7 @@ namespace Backend.Services
 			return result;
 		}
 
-		public void SetPrice(decimal newPrice)
+		public void SetPrice(long newPrice)
 		{
 			if(newPrice < 0)
 				throw new Exception("Price of property must be greater than 0");
@@ -57,7 +57,7 @@ namespace Backend.Services
 			LatestPricePerUnit = newPrice;
 		}
 
-		public decimal GetPrice(int size)
+		public long GetPrice(int size)
 		{
 			return LatestPricePerUnit * size;
 		}

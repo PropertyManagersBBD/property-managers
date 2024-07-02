@@ -273,6 +273,8 @@ namespace Backend.Services
 
 		public bool ApprovePropertySale(SaleApprovalDto approvalDto)
 		{
+			if(!approvalDto.Approval) return false;
+
 			var saleContract = approvalDto.ToSaleContract();
 			var property = _propertyManagerContext.Properties.Where(p => p.Id == approvalDto.PropertyId).FirstOrDefault();
 
@@ -290,6 +292,8 @@ namespace Backend.Services
 
 		public bool ApprovePropertyRental(RentalApprovalDto approvalDto)
 		{
+			if(!approvalDto.Approval) return false;
+
 			var contract = approvalDto.ToRentalContract();
 			var previousActiveContract = _propertyManagerContext.RentalContracts.Where(rc => rc.PropertyId == approvalDto.PropertyId && !rc.IsActive).FirstOrDefault();
 

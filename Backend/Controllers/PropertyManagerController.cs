@@ -337,7 +337,7 @@ namespace Backend.Controllers
 		/// <response code="400"> 
 		/// Will return the error
 		/// </response>
-		//[Authorize]
+		[Authorize]
 		[HttpPost("Properties/Owners", Name ="GetPropertiesByOwners")]
 		public IActionResult GetPropertiesByOwners(long[] ownerIds)
 		{

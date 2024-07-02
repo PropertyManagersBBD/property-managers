@@ -8,10 +8,10 @@
 
     public class PropertyResponse
     {
-        public decimal Price { get; set; }
+        public long Price { get; set; }
         public long PropertyId { get; set; }
 
-        public PropertyResponse(decimal price, long propertyId)
+        public PropertyResponse(long price, long propertyId)
         {
             Price = price;
             PropertyId = propertyId;

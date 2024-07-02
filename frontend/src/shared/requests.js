@@ -1,5 +1,5 @@
 const baseURL = "https://localhost:7147/PropertyManager/"
-
+//const baseURL = "https://property-manager.projects.bbdgrad.com/PropertyManager/"
 
 
 

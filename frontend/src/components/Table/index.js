@@ -78,26 +78,7 @@ function ContentTable() {
   };
   return (
     <article className="Wrapper">
-      <section className="navButtons">
-        <button
-          onClick={() => {
-            if (pageNumber > 1) {
-              setPageNumber(pageNumber - 1);
-            }
-          }}
-        >
-          <ArrowBackIcon /> Back{" "}
-        </button>
-        <button
-          onClick={() => {
-            if (data.length === 7) {
-              setPageNumber(pageNumber + 1);
-            }
-          }}
-        >
-          Next <ArrowForwardIcon />
-        </button>
-      </section>
+      
       <section className="input-wrapper">
         <section className="SearchContainer">
           <input
@@ -182,6 +163,8 @@ function ContentTable() {
               <h2>Pending</h2>
             </section>
 
+          <section className="Content">
+
             {data ? (
               data.map((item, index) => {
                 return (
@@ -200,6 +183,7 @@ function ContentTable() {
                 <h2>There Seems To Be A Problem</h2>
               </article>
             )}
+          </section>
           </article>
         )}
 
@@ -265,6 +249,27 @@ function ContentTable() {
           </article>
         )}
       </article>
+      <section className="navButtons">
+        <button
+          onClick={() => {
+            if (pageNumber > 1) {
+              setPageNumber(pageNumber - 1);
+            }
+          }}
+        >
+          <ArrowBackIcon />
+        </button>
+        <p>{pageNumber}</p>
+        <button
+          onClick={() => {
+            if (data.length === 7) {
+              setPageNumber(pageNumber + 1);
+            }
+          }}
+        >
+          <ArrowForwardIcon />
+        </button>
+      </section>
     </article>
   );
 }

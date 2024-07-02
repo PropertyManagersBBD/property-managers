@@ -7,17 +7,16 @@
   display: flex;
   gap: 1em;
   margin: 1em;
+  justify-content: center;
+  align-items: center;
 }
 .navButtons button {
-  flex: 1;
-  padding: 0.5em;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 1em;
   border: none;
-  background-color: #193a3f;
-  color: white;
+  background-color:transparent;
 }
 .navButtons button:hover {
   background-color: #37808b;
@@ -46,6 +45,9 @@
   margin: 1em;
   display: flex;
   flex-direction: column;
+  border: 1px solid lightgray;
+  padding: 1em;
+  border-radius: 1em;
 }
 
 .Entry {
@@ -63,9 +65,7 @@
 .Header {
   display: flex;
   justify-content: space-around;
-  color: white;
-  background-color: #193a3f;
-  border-radius: 1em;
+  border-bottom: 1px solid gray;
 }
 
 .data_entry {
@@ -75,7 +75,7 @@
 }
 
 .Header h2 {
-  font-size: large;
+  font-size: x-large;
   flex:1;
   display: flex;
   justify-content: center;
@@ -122,4 +122,10 @@ select:focus {
   display: flex;
   flex: 1;
   justify-content: center;
+}
+
+.Content{
+  border: 1px solid red;
+  height: 31rem;
+  overflow-y: auto;
 }

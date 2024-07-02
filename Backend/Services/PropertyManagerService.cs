@@ -291,9 +291,11 @@ namespace Backend.Services
 		public bool ApprovePropertyRental(RentalApprovalDto approvalDto)
 		{
 			var contract = approvalDto.ToRentalContract();
+			var previousActiveContract = _propertyManagerContext.RentalContracts.Where(rc => rc.PropertyId == approvalDto.PropertyId && !rc.IsActive).FirstOrDefault();
+
 			var property = _propertyManagerContext.Properties.Where(p => p.Id == approvalDto.PropertyId).FirstOrDefault();
 
-			if (contract == null || property==null) return false;
+			if (contract == null || property==null || previousActiveContract!=null) return false;
 			if(contract.LandlordId != property.OwnerId) return false;
 
 			_propertyManagerContext.RentalContracts.Add(contract);

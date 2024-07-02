@@ -5,23 +5,60 @@ import FolderOutlinedIcon from "@mui/icons-material/FolderOutlined";
 import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { getUsername } from "../../shared/handleJwt";
 function SideBar({ Selected }) {
   const [username, setUsername] = useState("@user-name");
   const [selectedButton, setSelectedButton] = useState(Selected);
+  const [loggedIn, setLoggedIn] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     setSelectedButton(Selected);
   }, [Selected]);
+  
+
+  useEffect(() => {
+    const token = localStorage.getItem("Token");
+    if (token) {
+      setLoggedIn(true);
+    } else {
+      setLoggedIn(false);
+    }
+  }, []);
+
+  useEffect(()=>{
+    if(loggedIn){
+      setUsername(getUsername());
+    }else{
+      setUsername("Welcome User")
+    }
+  },[loggedIn])
   return (
     <article className="fullSideBar">
       <article className="logoWrapper">
         <Logo className="logo" />
       </article>
-      <button className="loginButton" onClick={()=>{
-        window.location.href="https://dev-property-manager.auth.eu-west-1.amazoncognito.com/login?client_id=7tkql2hk58h484i70ji3n9hvb6&response_type=token&scope=email+openid+phone&redirect_uri=http%3A%2F%2Flocalhost%3A3000";
-      }}>Login</button>
+      {!loggedIn ? (
+        <button
+          className="loginButton"
+          onClick={() => {
+            window.location.href =
+              "https://dev-property-manager.auth.eu-west-1.amazoncognito.com/login?client_id=7tkql2hk58h484i70ji3n9hvb6&response_type=token&scope=email+openid+phone&redirect_uri=http%3A%2F%2Flocalhost%3A3000";
+          }}
+        >
+          Login
+        </button>
+      ) : (
+        <button
+          className="loginButton"
+          onClick={() => {
+            setLoggedIn(false);
+            localStorage.removeItem("Token");
+          }}
+        >
+          Logout
+        </button>
+      )}
       <section className="Location-Buttons">
         <button
           className={

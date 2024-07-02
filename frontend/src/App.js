@@ -6,10 +6,17 @@ import Layout from "./components/layout";
 import RentalPage from "./pages/rentals/RentalsPage";
 import { useEffect } from "react";
 function App() {
+  function parseTokenFromUrl(tokenName,url) {
+    const tokenMatch = url.match(new RegExp(`${tokenName}=([^&]+)`));
+    return tokenMatch ? tokenMatch[1] : null;
+  }
   useEffect(()=>{
     const url=window.location.href
-    console.log(url)
-  })
+    if(url.includes("id_token")){
+      const idToken = parseTokenFromUrl('id_token',url);
+      localStorage.setItem("Token",idToken);
+    }
+  },[])
 
 
   return (

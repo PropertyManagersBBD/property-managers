@@ -54,6 +54,7 @@
   display: flex;
   justify-content: space-around;
   border-bottom: 1px solid lightgray;
+  height: 4.3rem;
 }
 
 .Entry h2 {
@@ -125,7 +126,11 @@ select:focus {
 }
 
 .Content{
-  border: 1px solid red;
   height: 31rem;
   overflow-y: auto;
+}
+
+
+:root {
+  --rem-in-pixels: 1rem;
 }

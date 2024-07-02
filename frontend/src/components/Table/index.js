@@ -51,6 +51,18 @@ function ContentTable() {
     }
   }, [location.pathname, pageNumber, propertyId, capacity, ownerId]);
 
+
+  useEffect(()=>{
+    const remInPixels = getComputedStyle(document.documentElement)
+    .getPropertyValue('--rem-in-pixels');
+
+    const pixels=parseFloat(remInPixels);
+
+    const sizeOfElement=pixels*4.3;
+    const sizeOfContainer=pixels*31
+    const size=Math.floor(sizeOfContainer/sizeOfElement)
+    setPageSize(size)
+},[])
   const handleCapacityChange = (event) => {
     if (event.target.value === "All") {
       setCapacity(null);

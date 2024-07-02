@@ -271,6 +271,7 @@ namespace Backend.Services
 			return result;
 		}
 
+<<<<<<< AGO/end-points
 		public List<PropertySummary> GetPropertiesByOwners(long[] ownerIds) {
 			var properties = _propertyManagerContext.Properties.Where(x => ownerIds.Contains(x.OwnerId)).OrderBy(x => x.Id)
 				.ToList();
@@ -301,5 +302,48 @@ namespace Backend.Services
 				throw new Exception(e.Message);
 			}
 		}		
+=======
+		public bool ApprovePropertySale(SaleApprovalDto approvalDto)
+		{
+			if(!approvalDto.Approval) return false;
+
+			var saleContract = approvalDto.ToSaleContract();
+			var property = _propertyManagerContext.Properties.Where(p => p.Id == approvalDto.PropertyId).FirstOrDefault();
+
+			if ((saleContract == null) || (property==null)) return false;
+			if (saleContract.SellerId != property.OwnerId) return false;
+
+			_propertyManagerContext.SaleContracts.Add(saleContract);
+			property.OwnerId = approvalDto.BuyerId;
+			property.Pending = false;
+
+			_propertyManagerContext.SaveChanges();
+
+			return true;
+		}
+
+		public bool ApprovePropertyRental(RentalApprovalDto approvalDto)
+		{
+			if(!approvalDto.Approval) return false;
+
+			var contract = approvalDto.ToRentalContract();
+			var previousActiveContract = _propertyManagerContext.RentalContracts.Where(rc => rc.PropertyId == approvalDto.PropertyId && !rc.IsActive).FirstOrDefault();
+			if (previousActiveContract!=null) previousActiveContract.IsActive = false;
+
+			var property = _propertyManagerContext.Properties.Where(p => p.Id == approvalDto.PropertyId).FirstOrDefault();
+
+			if (contract == null || property==null) return false;
+			if(contract.LandlordId != property.OwnerId) return false;
+
+			_propertyManagerContext.RentalContracts.Add(contract);
+			property.ListedForRent = contract.IsActive;
+			property.Pending = false;
+
+			_propertyManagerContext.SaveChanges();
+
+			return true;
+		}
+
+>>>>>>> main
 	}
 }

@@ -9,7 +9,7 @@ CREATE TABLE [SaleContracts] (
   [PropertyId] bigint NOT NULL,
   [BuyerId] bigint NOT NULL,
   [SellerId] bigint NOT NULL,
-  [Price] money NOT NULL,
+  [Price] bigint NOT NULL,
   CONSTRAINT [FK_SaleContracts_Properties] FOREIGN KEY ([PropertyId]) REFERENCES [Properties]([Id])
 );
 
@@ -18,7 +18,7 @@ CREATE TABLE [RentalContracts] (
   [PropertyId] bigint NOT NULL,
   [LandlordId] bigint NOT NULL,
   [TenantId] bigint NOT NULL,
-  [Rent] money NOT NULL,
+  [Rent] bigint NOT NULL,
   [IsActive] bit NOT NULL,
   CONSTRAINT [FK_RentalContracts_Properties] FOREIGN KEY ([PropertyId]) REFERENCES [Properties]([Id])
 );

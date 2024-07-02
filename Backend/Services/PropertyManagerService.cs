@@ -271,6 +271,36 @@ namespace Backend.Services
 			return result;
 		}
 
+		public List<PropertySummary> GetPropertiesByOwners(long[] ownerIds) {
+			var properties = _propertyManagerContext.Properties.Where(x => ownerIds.Contains(x.OwnerId)).OrderBy(x => x.Id)
+				.ToList();
+
+			var result = properties.Select(prop => new PropertySummary(prop.Id, prop.OwnerId, prop.Capacity, GetPrice(prop.Capacity))).ToList();
+			
+			return result;
+		}
+
+		public void DailyUpdate(Deaths[] deaths) {
+			var properties = new List<PropertySummary>();
+			var entity = new Database.Models.Property();
+			foreach (var death in deaths){
+				properties = GetPropertiesByOwners([death.deceased]);
+				foreach (var property in properties){
+					Database.Models.SaleContract saleContract = new Database.Models.SaleContract{ PropertyId = property.Id ?? -1, BuyerId = death.next_of_kin, SellerId = death.deceased, Price = 0};
+					_propertyManagerContext.SaleContracts.Add(saleContract);
+					entity = _propertyManagerContext.Properties.FirstOrDefault(item => item.Id == property.Id);
+					if(entity != null)
+					{
+						entity.OwnerId = death.next_of_kin;
+					}
+				}
+			}
+			try {
+				_propertyManagerContext.SaveChanges();
+			} catch(Exception e) {
+				throw new Exception(e.Message);
+			}
+		}		
 		public bool ApprovePropertySale(SaleApprovalDto approvalDto)
 		{
 			if(!approvalDto.Approval) return false;

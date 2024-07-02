@@ -306,5 +306,33 @@ namespace Backend.Controllers
                 return BadRequest($"{ex.Message}");
             }
 		}
+
+		/// <summary>
+		/// Used to get properties belonging to certain owners
+		/// </summary>
+		/// <returns>Returns properties owned by all the owners in a list</returns>
+		/// <remarks>
+		/// 
+		/// Takes in a list of owner Ids
+		///
+		/// </remarks>
+		/// <response code="200">
+		/// Will return a list of properties.
+		/// </response>
+		/// <response code="400"> 
+		/// Will return the error
+		/// </response>
+		[HttpPost("Properties/Owners", Name ="GetPropertiesByOwners")]
+		public IActionResult GetPropertiesByOwners(long[] ownerIds)
+		{
+            try
+            {
+                List<Property> properties = _propertyManagerService.GetPropertiesByOwners(ownerIds);
+                return Ok(properties);
+            } catch(Exception ex)
+            {
+                return BadRequest($"{ex.Message}");
+            }
+		}
 	}
 }

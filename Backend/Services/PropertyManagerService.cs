@@ -270,5 +270,14 @@ namespace Backend.Services
 			
 			return result;
 		}
+
+		public List<Property> GetPropertiesByOwners(long[] ownerIds) {
+			var properties = _propertyManagerContext.Properties.Where(x => ownerIds.Contains(x.OwnerId)).OrderBy(x => x.Id)
+				.ToList();
+
+			var result = properties.Select(prop => new Property(prop.Id, prop.OwnerId, prop.Capacity, prop.ListedForSale, prop.ListedForRent, prop.Pending)).ToList();
+			
+			return result;
+		}
 	}
 }

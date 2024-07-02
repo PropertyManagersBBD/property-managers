@@ -1,45 +1,101 @@
-const baseURL="https://localhost:7147/PropertyManager/"
+const baseURL = "https://localhost:7147/PropertyManager/"
 
 
-const getProperties=(async (pageNumber) =>{
-    try{
-        const response=await fetch(baseURL+"Properties/"+pageNumber)
-        const data=await response.json()
-        return(data)
-    }catch(e){
-        console.log("Error could not get data")
+
+
+const customFetch = (async (url, options = {}) => {
+
+    const defaultHeaders = {
+        "Authorization": "Bearer " + localStorage.getItem("Token")
     }
-});
-
-const getSalesContracts=(async (pageNumber) =>{
-    try{
-
-        const response=await fetch(baseURL+"SaleContracts/"+pageNumber)
-        const data=await response.json()
-        return(data)
-    }catch(e){
-        console.log("Error could not get data")
+    const headers = {
+        ...defaultHeaders,
+        ...options.headers
     }
-});
 
-const getRentalContracts=(async (pageNumber) =>{
-    try{
-        
-        const response=await fetch(baseURL+"RentalContracts/"+pageNumber)
-        const data=await response.json()
-        return(data)
-    }catch(e){
-        console.log("Error could not get data")
+    const mergedOptions = {
+        ...options,
+        headers
     }
-});
+    let response;
+    try {
 
-const verifyJWT =(async (idToken, accessToken) =>{
-    try{
-        const response= await fetch(baseURL+"verifyJWT?idToken="+idToken+"&accessToken="+accessToken)
-        const data=await response.json();
-        return(data)
-    }catch(e){
-        console.log("Failed to verify token")
+        response = await fetch(url, mergedOptions);
+    } catch (e) {
+        return (e.message)
+    }
+
+    if (response.status === 401) {
+        // localStorage.removeItem("Token")
+        return ("logged out")
+    } else {
+        try {
+
+            const data = await response.json();
+            return (data)
+        } catch (e) {
+            return (e.message)
+        }
     }
 })
-module.exports={getProperties,getSalesContracts,getRentalContracts,verifyJWT}
+const getProperties = (async (pageNumber, pageSize = 7, id = undefined, ownerId = undefined, capacity = undefined) => {
+
+    let url = baseURL + "Properties?PageNumber=" + pageNumber + "&PageSize=" + pageSize
+
+    if (id) {
+        url += "&Id=" + id
+    }
+    if (ownerId) {
+        url += "&OwnerId=" + ownerId
+    }
+    if (capacity) {
+        url += "&Capacity=" + capacity
+    }
+    const data = await customFetch(url)
+    if (typeof (data) === "object") {
+        return (data)
+    } else {
+        console.log("Error:", data)
+    }
+});
+
+const getSalesContracts = (async (pageNumber, pageSize = 7, id = undefined, ownerId = undefined, capacity = undefined) => {
+    let url = baseURL + "SaleContracts?PageNumber=" + pageNumber + "&PageSize=" + pageSize
+    if (id) {
+        url += "&Id=" + id
+    }
+    if (ownerId) {
+        url += "&OwnerId=" + ownerId
+    }
+    if (capacity) {
+        url += "&Capacity=" + capacity
+    }
+    const data = await customFetch(url)
+    if (typeof (data) === "object") {
+        return (data)
+    } else {
+        console.log("Error:", data)
+    }
+});
+
+const getRentalContracts = (async (pageNumber, pageSize = 7, id = undefined, PropertyId = undefined, capacity = undefined) => {
+    let url = baseURL + "RentalContracts?PageNumber=" + pageNumber + "&PageSize=" + pageSize
+    if (id) {
+        url += "&Id=" + id
+    }
+    if (PropertyId) {
+        url += "&PropertyId=" + PropertyId
+    }
+    if (capacity) {
+        url += "&Capacity=" + capacity
+    }
+    const data = await customFetch(url)
+    if (typeof (data) === "object") {
+        return (data)
+    } else {
+        console.log("Error:", data)
+    }
+
+});
+
+module.exports = { getProperties, getSalesContracts, getRentalContracts }

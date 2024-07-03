@@ -152,8 +152,8 @@ namespace Backend.Controllers
         {
             try
 			{
-                _propertyManagerService.ListForSale(Id);
-                return Ok("Proprty " + Id + " has been listed for sale");
+                String msg = _propertyManagerService.ListForSale(Id);
+                return Ok(msg);
 			}
 			catch(Exception ex)
 			{

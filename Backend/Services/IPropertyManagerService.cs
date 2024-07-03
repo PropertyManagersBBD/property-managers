@@ -15,8 +15,8 @@ namespace Backend.Services
         long GetPrice(int size);
         long GetProperty(int size, bool ToRent);
 		long GetPropertyOwner(long propertyId);
-		void ListForSale(long Id);
-		void ListForRent(long Id);
+		String ListForSale(long Id);
+		String ListForRent(long Id);
 		bool ApprovePropertySale(SaleApprovalDto approvalDto);
 		bool ApprovePropertyRental(RentalApprovalDto approvalDto);
 	}

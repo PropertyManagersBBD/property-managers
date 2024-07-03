@@ -378,9 +378,8 @@ namespace Backend.Controllers
 		/// <response code="400"> 
 		/// </response>
 		//[Authorize]
-		[HttpGet("Reset", Name = "Reset")]
-		public IActionResult Reset()
-
+		[HttpPost("Reset", Name = "Reset")]
+		public IActionResult Reset([FromBody] object bodyInfo)
 		{
 			try
 			{

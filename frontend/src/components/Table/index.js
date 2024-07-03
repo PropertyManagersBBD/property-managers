@@ -15,7 +15,7 @@ function ContentTable() {
   const location = useLocation();
   const [data, setData] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
-  const [pageSize, setPageSize] = useState(7);
+  const [pageSize] = useState(20);
   const [capacity, setCapacity] = useState();
   const [propertyId, setPropertyId] = useState();
   const [ownerId, setOwnerId] = useState();
@@ -51,6 +51,7 @@ function ContentTable() {
     }
   }, [location.pathname, pageNumber, propertyId, capacity, ownerId]);
 
+
   const handleCapacityChange = (event) => {
     if (event.target.value === "All") {
       setCapacity(null);
@@ -78,26 +79,7 @@ function ContentTable() {
   };
   return (
     <article className="Wrapper">
-      <section className="navButtons">
-        <button
-          onClick={() => {
-            if (pageNumber > 1) {
-              setPageNumber(pageNumber - 1);
-            }
-          }}
-        >
-          <ArrowBackIcon /> Back{" "}
-        </button>
-        <button
-          onClick={() => {
-            if (data.length === 7) {
-              setPageNumber(pageNumber + 1);
-            }
-          }}
-        >
-          Next <ArrowForwardIcon />
-        </button>
-      </section>
+      
       <section className="input-wrapper">
         <section className="SearchContainer">
           <input
@@ -171,16 +153,19 @@ function ContentTable() {
       </section>
 
       <article className="main-table">
-        {pageLocation === "/" && (
+        {pageLocation === "/" && 
+        (
           <article className="tableBody">
             <section className="Header">
               <h2>Property</h2>
               <h2>Owner ID</h2>
               <h2>Capacity</h2>
-              <h2>Listed for Rent</h2>
-              <h2>Listed for Sale</h2>
+              <h2>Rentable</h2>
+              <h2>Sellable</h2>
               <h2>Pending</h2>
             </section>
+
+          <section className="Content">
 
             {data ? (
               data.map((item, index) => {
@@ -200,8 +185,12 @@ function ContentTable() {
                 <h2>There Seems To Be A Problem</h2>
               </article>
             )}
+          </section>
           </article>
-        )}
+        )
+        }
+
+
 
         {pageLocation === "/sales" && (
           <article className="tableBody">
@@ -222,7 +211,7 @@ function ContentTable() {
                   <h2>{item.sellerId}</h2>
                   <h2>{item.buyerId}</h2>
                   <h2>{item.capacity}</h2>
-                  <h2>Ð {item.price}</h2>
+                  <h2>{item.price}₥</h2>
                 </article>
               ))
             ) : (
@@ -253,7 +242,7 @@ function ContentTable() {
                     <h2>{item.landlordId}</h2>
                     <h2>{item.tenantId}</h2>
                     <h2>{item.capacity}</h2>
-                    <h2>Ð {item.price}</h2>
+                    <h2>{item.price}₥</h2>
                   </article>
                 );
               })
@@ -265,6 +254,27 @@ function ContentTable() {
           </article>
         )}
       </article>
+      <section className="navButtons">
+        <button
+          onClick={() => {
+            if (pageNumber > 1) {
+              setPageNumber(pageNumber - 1);
+            }
+          }}
+        >
+          <ArrowBackIcon />
+        </button>
+        <p>{pageNumber}</p>
+        <button
+          onClick={() => {
+            if (data.length === pageSize) {
+              setPageNumber(pageNumber + 1);
+            }
+          }}
+        >
+          <ArrowForwardIcon />
+        </button>
+      </section>
     </article>
   );
 }

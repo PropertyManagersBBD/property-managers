@@ -1,10 +1,6 @@
-html, body {
-    height:100%;
-    /* overflow: hidden; */
-}
+
 
 body {
-    height:100%;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -13,18 +9,29 @@ body {
 
 .fullBody {
     width: 100vw;
-    /* height: 100vh; */
-    height: 100%;
+    min-height: 100vh;
+
     display: flex;
     flex-direction: row;
 }
 
 
 .sidebarWrapper{
-    flex:1;
-    /* max-width: 20rem; */
+    display: flex;
 }
 
 .mainClass{
-    flex:4
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+.children{
+    flex:1;
+    height:100%
+}
+@media (max-width: 800px) {
+    .mainClass{
+        flex-direction: column;
+    }
+
 }

@@ -1,6 +1,7 @@
 ﻿using System.Runtime.ConstrainedExecution;
 using Backend.Database.Context;
 using Backend.DTOs;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Tokens;
 
@@ -21,10 +22,13 @@ namespace Backend.Services
 		{
 			if(_propertyManagerContext.Properties.IsNullOrEmpty())
 			{
+				// Get the new price per unit from hand of zeus
+
+
 				var properties = new List<Database.Models.Property>();
-				for(int i = 0; i < 50; i++)
+				for(int i = 0; i < 5000; i++)
 				{
-					int numProperties = (new Random().Next() % 7) + 1; // Between 1 and 8
+					int numProperties = (new Random().Next() % 8) + 1; // Between 1 and 8
 					Database.Models.Property property = new Database.Models.Property
 					{
 						OwnerId = -1,
@@ -110,9 +114,9 @@ namespace Backend.Services
 			}
 		}
 
-		public String ListForSale(long Id)
+		public String ListForSale(long personaId)
 		{
-			var entity = _propertyManagerContext.Properties.FirstOrDefault(item => item.Id == Id);
+			var entity = _propertyManagerContext.Properties.FirstOrDefault(item => item.OwnerId == personaId);
 
 			if(entity != null)
 			{
@@ -289,6 +293,7 @@ namespace Backend.Services
 		public void DailyUpdate(Deaths[] deaths) {
 			var properties = new List<PropertySummary>();
 			var entity = new Database.Models.Property();
+
 			foreach (var death in deaths){
 				properties = GetPropertiesByOwners([death.deceased]);
 				foreach (var property in properties){
@@ -301,12 +306,9 @@ namespace Backend.Services
 					}
 				}
 			}
-			try {
-				_propertyManagerContext.SaveChanges();
-			} catch(Exception e) {
-				throw new Exception(e.Message);
-			}
-		}		
+			_propertyManagerContext.SaveChanges();
+		}	
+		
 		public bool ApprovePropertySale(SaleApprovalDto approvalDto)
 		{
 			if(!approvalDto.Approval) return false;
@@ -348,5 +350,12 @@ namespace Backend.Services
 			return true;
 		}
 
+		public void Reset()
+		{
+			FormattableString query = $"EXEC ResetDatabase";
+			_propertyManagerContext.Database.ExecuteSql(query);
+			SpawnProperties();
+				//(query);
+		}
 	}
 }

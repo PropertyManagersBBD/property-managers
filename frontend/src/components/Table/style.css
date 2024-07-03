@@ -1,23 +1,21 @@
 .Wrapper {
   display: flex;
   flex-direction: column;
-  height: 100%;
 }
 .navButtons {
   display: flex;
   gap: 1em;
   margin: 1em;
+  justify-content: center;
+  align-items: center;
 }
 .navButtons button {
-  flex: 1;
-  padding: 0.5em;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 1em;
   border: none;
-  background-color: #193a3f;
-  color: white;
+  background-color:transparent;
 }
 .navButtons button:hover {
   background-color: #37808b;
@@ -29,6 +27,7 @@
   flex-wrap: wrap;
   gap: 1em;
   margin: 1em;
+  max-height: min-content;
 }
 
 .selectField {
@@ -46,12 +45,21 @@
   margin: 1em;
   display: flex;
   flex-direction: column;
+  border: 1px solid lightgray;
+  padding: 1em;
+  border-radius: 1em;
+  max-height: 30rem;
 }
-
+.tableBody{
+  display: flex;
+  flex-direction: column;
+  overflow-x: auto;
+ }
 .Entry {
   display: flex;
   justify-content: space-around;
   border-bottom: 1px solid lightgray;
+  flex:1;
 }
 
 .Entry h2 {
@@ -59,13 +67,15 @@
   justify-content: center;
   align-items: center;
   display: flex;
+  text-wrap: nowrap;
+  font-size: medium;
 }
 .Header {
   display: flex;
   justify-content: space-around;
-  color: white;
-  background-color: #193a3f;
-  border-radius: 1em;
+  border-bottom: 1px solid gray;
+  text-wrap: nowrap;
+  min-width: 40rem;
 }
 
 .data_entry {
@@ -122,4 +132,20 @@ select:focus {
   display: flex;
   flex: 1;
   justify-content: center;
+}
+
+.Content{
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  max-height: 27rem;
+  min-width: 40rem;
+}
+
+
+
+@media(max-width: 600px){
+  .Header h2{
+    font-size: small;
+  }
 }

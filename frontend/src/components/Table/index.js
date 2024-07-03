@@ -15,7 +15,7 @@ function ContentTable() {
   const location = useLocation();
   const [data, setData] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
-  const [pageSize, setPageSize] = useState(7);
+  const [pageSize] = useState(20);
   const [capacity, setCapacity] = useState();
   const [propertyId, setPropertyId] = useState();
   const [ownerId, setOwnerId] = useState();
@@ -52,17 +52,6 @@ function ContentTable() {
   }, [location.pathname, pageNumber, propertyId, capacity, ownerId]);
 
 
-  useEffect(()=>{
-    const remInPixels = getComputedStyle(document.documentElement)
-    .getPropertyValue('--rem-in-pixels');
-
-    const pixels=parseFloat(remInPixels);
-
-    const sizeOfElement=pixels*4.3;
-    const sizeOfContainer=pixels*31
-    const size=Math.floor(sizeOfContainer/sizeOfElement)
-    setPageSize(size)
-},[])
   const handleCapacityChange = (event) => {
     if (event.target.value === "All") {
       setCapacity(null);
@@ -164,14 +153,15 @@ function ContentTable() {
       </section>
 
       <article className="main-table">
-        {pageLocation === "/" && (
+        {pageLocation === "/" && 
+        (
           <article className="tableBody">
             <section className="Header">
               <h2>Property</h2>
               <h2>Owner ID</h2>
               <h2>Capacity</h2>
-              <h2>Listed for Rent</h2>
-              <h2>Listed for Sale</h2>
+              <h2>Rentable</h2>
+              <h2>Sellable</h2>
               <h2>Pending</h2>
             </section>
 
@@ -197,7 +187,10 @@ function ContentTable() {
             )}
           </section>
           </article>
-        )}
+        )
+        }
+
+
 
         {pageLocation === "/sales" && (
           <article className="tableBody">
@@ -274,7 +267,7 @@ function ContentTable() {
         <p>{pageNumber}</p>
         <button
           onClick={() => {
-            if (data.length === 7) {
+            if (data.length === pageSize) {
               setPageNumber(pageNumber + 1);
             }
           }}

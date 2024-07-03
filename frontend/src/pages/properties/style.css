@@ -1,19 +1,20 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
 html,
 body {
-  height: 100%;
   margin: 0;
   padding: 0;
   /* overflow: hidden; */
   font-family: Inter; /* Optional */
+  display: flex;
 }
 
 .wrapper {
-  height: 100%;
-  margin: 2rem;
+  margin: 1rem;
+  display: flex;
+  flex-direction: column;
 }
 
 h1 {
   font-family: Inter;
-  font-size: 2.5rem;
+  font-size: x-large;
 }

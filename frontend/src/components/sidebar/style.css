@@ -1,7 +1,7 @@
 .fullSideBar{
 
     width: 100%;
-    height: 100%;
+    /* height: 100%; */
     background-color: #113b40;
     display: flex;
     flex-direction: column;
@@ -15,7 +15,6 @@
 .logoWrapper{
     margin: 2em;
     display: flex;
-    /* flex:1 */
     
 }
 
@@ -34,9 +33,26 @@
     color: white;
     border-radius: 10rem;
     cursor: pointer;
+
 }
 
 .loginButton:hover{
+    background-color:#37808b;
+}
+
+.loginButton-menu{
+
+    /* width: 80%; */
+    height: 4em;
+    background-color: transparent;
+    border:2px solid white;
+    color: white;
+    border-radius: 10rem;
+    cursor: pointer;
+    min-width: 1em;
+    width: 100%;
+}
+.loginButton-menu:hover{
     background-color:#37808b;
 }
 
@@ -45,7 +61,7 @@
     flex-direction: column;
     justify-items: start;
     width: 80%;
-    gap:0.5em
+    gap:0.5em;
 }
 
 .Location-Buttons button{
@@ -57,9 +73,31 @@
     align-items: center;
     gap:1em;
     cursor: pointer;
+    font-size: larger;
+
+    
 }
 
+.Location-Buttons-menu{
+    display: flex;
+    flex-direction: column;
+    justify-items: start;
+    width: 80%;
+    gap:0.5em;
+}
 
+.Location-Buttons-menu button{
+    background: none;
+    border: none;
+    text-align: start;
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    gap:1em;
+    cursor: pointer;
+    font-size: larger;
+    
+}
 .selectedButton{
     color: #F89F1A;
     border: 1px solid red;
@@ -77,4 +115,61 @@
     width: 100%;
     display: flex;
     justify-content: center;
+}
+.Menu{
+    display: none;
+}
+
+.full-menu{
+    display: none;
+}
+
+
+@media(max-width: 800px){
+    .fullSideBar{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .Location-Buttons{
+        flex-direction: row;
+        flex-wrap: wrap;
+        flex: 1;
+        display: none;
+    }
+    .Footer{
+        display: none;
+    }
+    .loginButton{
+        display: none
+    }
+    .Menu{
+        display: flex;
+        background: transparent;
+        border: none;
+        margin: 1em;
+        /* height: 100%; */
+        width: 10em;
+        justify-content: center;
+        align-items: center;
+    }
+    .menu-icon{
+        color: white;
+    }
+    .full-menu{
+        display: flex;
+        position: relative;
+        background: #113b40;
+        z-index: 2;
+        right: 0%;
+        top:15em;
+        flex:0;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap:1em;
+        padding: 1em;
+    }
+
 }

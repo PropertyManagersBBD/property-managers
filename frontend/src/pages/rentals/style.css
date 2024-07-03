@@ -1,15 +1,6 @@
 html, body {
-    height: 100%;
     margin: 0;
     padding: 0;
-    /* overflow: hidden; */
     font-family: Arial, sans-serif; /* Optional */
-
-}
-
-.wrapper{
-
-    height:100%;
-    
 
 }

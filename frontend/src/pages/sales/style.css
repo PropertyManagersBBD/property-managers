@@ -1,19 +1,13 @@
 html, body {
     margin: 0;
     padding: 0;
-    overflow: hidden;
+    overflow: auto;
     font-family: Arial, sans-serif; /* Optional */
 
 }
 
 
 @media (max-width: 800px){
-    html,body{
-        overflow: auto;
-    }
-}
-
-@media (max-height: 750px) {
     html,body{
         overflow: auto;
     }

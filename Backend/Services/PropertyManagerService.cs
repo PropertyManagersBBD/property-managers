@@ -111,9 +111,9 @@ namespace Backend.Services
 			}
 		}
 
-		public void ListForSale(long Id)
+		public void ListForSale(long personaId)
 		{
-			var entity = _propertyManagerContext.Properties.FirstOrDefault(item => item.Id == Id);
+			var entity = _propertyManagerContext.Properties.FirstOrDefault(item => item.OwnerId == personaId);
 
 			if(entity != null)
 			{

@@ -11,6 +11,7 @@ namespace Backend.Services
 	{
 		private readonly PropertyManagerContext _propertyManagerContext;
 		private static long LatestPricePerUnit { get; set; }
+		private static HttpClient httpClient = new HttpClient();
 
 		public PropertyManagerService(PropertyManagerContext propertyManagerContext)
 		{
@@ -22,7 +23,10 @@ namespace Backend.Services
 		{
 			if(_propertyManagerContext.Properties.IsNullOrEmpty())
 			{
-				// Get the new price per unit from hand of zeus
+				// Get the new price per unit from hand of zeus CALL OTHERS
+				// Call this get:
+				// https://api.zeus.projects.bbdgrad.com/house-price
+				var answer = httpClient.GetAsync("https://api.zeus.projects.bbdgrad.com/house-price").Result;
 
 
 				var properties = new List<Database.Models.Property>();

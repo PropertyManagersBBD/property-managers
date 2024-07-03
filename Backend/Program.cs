@@ -107,6 +107,9 @@ namespace Backend
 			{
 				app.UseSwagger();
 				app.UseSwaggerUI();
+			} else
+			{
+				app.UseSwagger();
 			}
 			app.UseCors(MyAllowSpecificOrigins);
             app.UseHttpsRedirection();

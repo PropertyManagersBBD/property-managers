@@ -122,9 +122,9 @@ namespace Backend.Services
 			{
 				entity.ListedForSale = true;
 				_propertyManagerContext.SaveChanges();
-				return "Proprty " + Id + " has been listed for sale";
+				return "Proprty " + entity.Id + " has been listed for sale";
 			} else {
-				return "Proprty " + Id + " does not exist";
+				return "Owner does not own any properties";
 			}
 		}
 

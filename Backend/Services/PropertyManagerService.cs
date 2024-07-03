@@ -100,7 +100,7 @@ namespace Backend.Services
 			return dbResult.OwnerId;
 		}
 		
-		public void ListForRent(long Id)
+		public String ListForRent(long Id)
 		{
 			var entity = _propertyManagerContext.Properties.FirstOrDefault(item => item.Id == Id);
 
@@ -108,10 +108,13 @@ namespace Backend.Services
 			{
 				entity.ListedForRent = true;
 				_propertyManagerContext.SaveChanges();
+				return "Proprty " + Id + " has been listed for rent";
+			} else {
+				return "Proprty " + Id + " does not exist";
 			}
 		}
 
-		public void ListForSale(long personaId)
+		public String ListForSale(long personaId)
 		{
 			var entity = _propertyManagerContext.Properties.FirstOrDefault(item => item.OwnerId == personaId);
 
@@ -119,6 +122,9 @@ namespace Backend.Services
 			{
 				entity.ListedForSale = true;
 				_propertyManagerContext.SaveChanges();
+				return "Proprty " + entity.Id + " has been listed for sale";
+			} else {
+				return "Owner does not own any properties";
 			}
 		}
 

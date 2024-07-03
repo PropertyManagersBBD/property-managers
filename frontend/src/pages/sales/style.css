@@ -1,15 +1,17 @@
 html, body {
-    height: 100%;
     margin: 0;
     padding: 0;
-    overflow: hidden;
-    font-family: Arial, sans-serif; /* Optional */
-
+    overflow: auto;
+    font-family: Arial, sans-serif;
 }
 
-.wrapper{
-
-    height:100%;
-    
-
+h1 {
+    margin: 1em;
+    font-family: Inter;
+    font-size: x-large;
+  }
+@media (max-width: 800px){
+    html,body{
+        overflow: auto;
+    }
 }

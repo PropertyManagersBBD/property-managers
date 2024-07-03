@@ -334,7 +334,7 @@ namespace Backend.Controllers
             }
 		}
 
-        /// <summary>
+		/// <summary>
 		/// Used to get rental contracts
 		/// </summary>
 		/// <returns>Returns rental contracts according to filter</returns>
@@ -350,18 +350,47 @@ namespace Backend.Controllers
 		/// Will return the error
 		/// </response>
 		//[Authorize]
-		[HttpGet("RentalContracts", Name ="GetRentalContracts")]
+		[HttpGet("RentalContracts", Name = "GetRentalContracts")]
 		public IActionResult GetRentalContracts(int PageNumber, int PageSize, long? Id, long? PropertyId, int? Capacity)
 
 		{
-            try
-            {
-                List<RentalContract> rentalContracts = _propertyManagerService.GetRentalContracts(PageNumber, PageSize, Id, PropertyId, Capacity);
-                return Ok(rentalContracts);
-            } catch(Exception ex)
-            {
-                return BadRequest($"{ex.Message}");
-            }
+			try
+			{
+				List<RentalContract> rentalContracts = _propertyManagerService.GetRentalContracts(PageNumber, PageSize, Id, PropertyId, Capacity);
+				return Ok(rentalContracts);
+			}
+			catch(Exception ex)
+			{
+				return BadRequest($"{ex.Message}");
+			}
+		}
+
+		/// <summary>
+		/// Reset
+		/// </summary>
+		/// <returns>None</returns>
+		/// <remarks>
+		/// 
+		///
+		/// </remarks>
+		/// <response code="200">
+		/// </response>
+		/// <response code="400"> 
+		/// </response>
+		//[Authorize]
+		[HttpGet("Reset", Name = "Reset")]
+		public IActionResult Reset()
+
+		{
+			try
+			{
+				_propertyManagerService.Reset();
+				return Ok();
+			}
+			catch(Exception ex)
+			{
+				return BadRequest($"{ex.Message}");
+			}
 		}
 
 		/// <summary>

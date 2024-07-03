@@ -1,6 +1,7 @@
 ﻿using System.Runtime.ConstrainedExecution;
 using Backend.Database.Context;
 using Backend.DTOs;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Tokens;
 
@@ -22,7 +23,7 @@ namespace Backend.Services
 			if(_propertyManagerContext.Properties.IsNullOrEmpty())
 			{
 				var properties = new List<Database.Models.Property>();
-				for(int i = 0; i < 50; i++)
+				for(int i = 0; i < 5000; i++)
 				{
 					int numProperties = (new Random().Next() % 7) + 1; // Between 1 and 8
 					Database.Models.Property property = new Database.Models.Property
@@ -342,5 +343,11 @@ namespace Backend.Services
 			return true;
 		}
 
+		public void Reset()
+		{
+			FormattableString query = $"EXEC ResetDatabase";
+			_propertyManagerContext.Database.ExecuteSql(query);
+				//(query);
+		}
 	}
 }

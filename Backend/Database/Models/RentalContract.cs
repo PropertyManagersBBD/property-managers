@@ -17,8 +17,7 @@ public partial class RentalContract
 
     public long TenantId { get; set; }
 
-    [Column(TypeName = "money")]
-    public decimal Rent { get; set; }
+    public long Rent { get; set; }
 
     public bool IsActive { get; set; }
 

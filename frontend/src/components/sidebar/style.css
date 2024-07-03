@@ -159,11 +159,11 @@
     }
     .full-menu{
         display: flex;
-        position: relative;
-        background: #113b40;
+        position: absolute;
+        background: #1b5e66;
         z-index: 2;
         right: 0%;
-        top:15em;
+        top:8em;
         flex:0;
         justify-content: center;
         align-items: center;
@@ -171,5 +171,8 @@
         gap:1em;
         padding: 1em;
     }
-
+    
+    .logo{
+        height: 4em
+    }
 }

@@ -4,3 +4,9 @@ html, body {
     font-family: Arial, sans-serif; /* Optional */
 
 }
+
+h1 {
+    margin: 1em;
+    font-family: Inter;
+    font-size: x-large;
+  }

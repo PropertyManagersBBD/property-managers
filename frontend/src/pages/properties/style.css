@@ -9,12 +9,13 @@ body {
 }
 
 .wrapper {
-  margin: 1rem;
+  margin: 1em;
   display: flex;
   flex-direction: column;
 }
 
 h1 {
+  margin: 1em;
   font-family: Inter;
   font-size: x-large;
 }

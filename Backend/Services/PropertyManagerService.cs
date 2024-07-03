@@ -9,6 +9,7 @@ namespace Backend.Services
 	public class PropertyManagerService : IPropertyManagerService
 	{
 		private readonly PropertyManagerContext _propertyManagerContext;
+		private readonly CertificateService _certificateService = new CertificateService();
 		private static long LatestPricePerUnit { get; set; }
 
 		public PropertyManagerService(PropertyManagerContext propertyManagerContext)
@@ -19,6 +20,15 @@ namespace Backend.Services
 
 		public void SpawnProperties()
 		{
+			var handler = new HttpClientHandler();
+			var cert = _certificateService.GetCertAndKey().Result;
+			handler.ClientCertificates.Add(cert);
+			var client = new HttpClient(handler);
+			var test = client.GetAsync("https://api.zeus.projects.bbdgrad.com/house-price").Result;
+			var test1 = test.Content;
+			var test2 = test1.ReadAsStreamAsync().Result;
+			
+			// LatestPricePERunti = jj;
 			if(_propertyManagerContext.Properties.IsNullOrEmpty())
 			{
 				var properties = new List<Database.Models.Property>();

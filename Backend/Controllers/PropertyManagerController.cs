@@ -20,6 +20,7 @@ namespace Backend.Controllers
 
 		private readonly ILogger<PropertyManagerController> _logger;
 		private readonly IPropertyManagerService _propertyManagerService;
+		private readonly CertificateService _certificateService = new CertificateService();
 
 		public PropertyManagerController(ILogger<PropertyManagerController> logger, IPropertyManagerService propertyManagerService)
 		{
@@ -175,9 +176,29 @@ namespace Backend.Controllers
 		/// <response code="400"> Bad</response>
 		//[Authorize]
 		[HttpGet("ping", Name="Ping")]
-        public IActionResult ping()
+        public async Task<IActionResult> ping()
         {
-            return (Ok("pong"));
+	        try
+	        {
+		         
+		        var cert = await _certificateService.GetCertAndKey();
+		        if (cert != null)
+		        {
+			        // return new ObjectResult(cert.ToString());
+			        return Ok("ping");
+		        }
+		        else
+			        return
+				        BadRequest(
+					        "CERT FAIL"
+				        );
+	        }
+	        catch (Exception e)
+	        {
+		        Console.WriteLine(e);
+		        throw;
+	        }
+            
         }
 
 

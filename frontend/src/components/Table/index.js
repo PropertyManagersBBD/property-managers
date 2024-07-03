@@ -211,7 +211,7 @@ function ContentTable() {
                   <h2>{item.sellerId}</h2>
                   <h2>{item.buyerId}</h2>
                   <h2>{item.capacity}</h2>
-                  <h2>Ð {item.price}</h2>
+                  <h2>{item.price}₥</h2>
                 </article>
               ))
             ) : (
@@ -242,7 +242,7 @@ function ContentTable() {
                     <h2>{item.landlordId}</h2>
                     <h2>{item.tenantId}</h2>
                     <h2>{item.capacity}</h2>
-                    <h2>Ð {item.price}</h2>
+                    <h2>{item.price}₥</h2>
                   </article>
                 );
               })

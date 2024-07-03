@@ -177,7 +177,7 @@ namespace Backend.Controllers
 		[HttpGet("ping", Name="Ping")]
         public IActionResult ping()
         {
-            return (Ok("pong"));
+            return (Ok($"pong + {_propertyManagerService.GetPrice(1)}"));
         }
 
 

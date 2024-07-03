@@ -1,4 +1,5 @@
 ﻿using System.Runtime.ConstrainedExecution;
+using System.Text.Json;
 using Backend.Database.Context;
 using Backend.DTOs;
 using Microsoft.EntityFrameworkCore;
@@ -27,7 +28,9 @@ namespace Backend.Services
 				// Call this get:
 				// https://api.zeus.projects.bbdgrad.com/house-price
 				var answer = httpClient.GetAsync("https://api.zeus.projects.bbdgrad.com/house-price").Result;
-
+				var priceResponse = answer.Content.ReadAsStringAsync().Result;
+				var price = JsonSerializer.Deserialize<PriceResponse>(priceResponse);
+				LatestPricePerUnit = price?.value ?? 1600*1024;
 
 				var properties = new List<Database.Models.Property>();
 				for(int i = 0; i < 5000; i++)

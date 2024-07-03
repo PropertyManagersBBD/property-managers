@@ -13,13 +13,10 @@ body {
 
     display: flex;
     flex-direction: row;
-    /* justify-content: flex-start; */
 }
 
 
 .sidebarWrapper{
-    /* flex:1; */
-    /* height: 100%; */
     display: flex;
 }
 
@@ -27,7 +24,6 @@ body {
     display: flex;
     flex-direction: row;
     width: 100%;
-    /* flex:4 */
 }
 .children{
     flex:1;

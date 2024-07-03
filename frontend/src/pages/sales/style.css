@@ -2,8 +2,7 @@ html, body {
     margin: 0;
     padding: 0;
     overflow: auto;
-    font-family: Arial, sans-serif; /* Optional */
-
+    font-family: Arial, sans-serif;
 }
 
 h1 {

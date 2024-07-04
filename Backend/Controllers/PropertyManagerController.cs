@@ -39,7 +39,7 @@ namespace Backend.Controllers
 		/// </remarks>
 		/// <response code="200"> The new price per unit was set </response>
 		/// <response code="400"> An error occurred, so the old price per unit was used </response>
-		//[Authorize]
+		[Authorize]
 		[HttpPut("SetPrice/{newPrice}", Name = "Set Price per housing unit")]
 		public IActionResult SetPrice(long newPrice)
 		{
@@ -69,7 +69,7 @@ namespace Backend.Controllers
 		/// </remarks>
 		/// <response code="200"> Good </response>
 		/// <response code="400"> Bad</response>
-		//[Authorize]
+		[Authorize]
 		[HttpPut("Property", Name = "RequestProperty")]
 		public IActionResult GetProperties([FromBody] RequestProperty requestProperty)
 		{
@@ -96,11 +96,12 @@ namespace Backend.Controllers
 				{
 					return BadRequest("Invalid Size");
 				}
-			}catch(Exception ex)
+			}
+			catch(Exception ex)
 			{
 				return BadRequest(ex.Message);
 			}
-			
+
 		}
 
 		/// <summary>
@@ -120,40 +121,41 @@ namespace Backend.Controllers
 		/// Will return:
 		/// "Property {propertyId} does not exist"
 		/// </response>
-		//[Authorize]
-		[HttpGet("Owner/{propertyID}", Name ="GetOwner")]
+		[Authorize]
+		[HttpGet("Owner/{propertyID}", Name = "GetOwner")]
 		public IActionResult GetOwner(long propertyID)
 		{
-            try
-            {
-                var owner = _propertyManagerService.GetPropertyOwner(propertyID);
-                return Ok(owner);
-            } catch(Exception ex)
-            {
-                return BadRequest($"{ex.Message}");
-            }
+			try
+			{
+				var owner = _propertyManagerService.GetPropertyOwner(propertyID);
+				return Ok(owner);
+			}
+			catch(Exception ex)
+			{
+				return BadRequest($"{ex.Message}");
+			}
 		}
 
-        /// <summary>
-        /// Used to list a property on the market to be sold
-        /// </summary>
+		/// <summary>
+		/// Used to list a property on the market to be sold
+		/// </summary>
 		/// 
-        /// <returns>200 or a 400</returns>
-        /// <remarks>
-        /// 
-        /// Body requres the property ID
-        ///
-        /// </remarks>
-        /// <response code="200"> Good </response>
-        /// <response code="400"> Bad</response>
-		//[Authorize]
+		/// <returns>200 or a 400</returns>
+		/// <remarks>
+		/// 
+		/// Body requres the property ID
+		///
+		/// </remarks>
+		/// <response code="200"> Good </response>
+		/// <response code="400"> Bad</response>
+		[Authorize]
 		[HttpPost("Sell", Name = "SellProperty")]
-        public IActionResult SellProperty(int Id)
-        {
-            try
+		public IActionResult SellProperty(int Id)
+		{
+			try
 			{
-                String msg = _propertyManagerService.ListForSale(Id);
-                return Ok(msg);
+				String msg = _propertyManagerService.ListForSale(Id);
+				return Ok(msg);
 			}
 			catch(Exception ex)
 			{
@@ -173,40 +175,39 @@ namespace Backend.Controllers
 		/// </remarks>
 		/// <response code="200"> Good </response>
 		/// <response code="400"> Bad</response>
-		//[Authorize]
-		[HttpGet("ping", Name="Ping")]
-        public IActionResult ping()
-        {
-            return (Ok($"pong + {_propertyManagerService.GetPrice(1)}"));
-        }
+		[HttpGet("ping", Name = "Ping")]
+		public IActionResult ping()
+		{
+			return (Ok($"pong + {_propertyManagerService.GetPrice(1)}"));
+		}
 
 
 		/// <summary>
-        /// Used to list a property on the market to be rented
-        /// </summary>
-        /// 
-        /// <returns>200 or a 400</returns>
-        /// <remarks>
-        /// 
-        /// Body requres the property ID
-        ///
-        /// </remarks>
-        /// <response code="200"> Good </response>
-        /// <response code="400"> Bad</response>
-		//[Authorize]
+		/// Used to list a property on the market to be rented
+		/// </summary>
+		/// 
+		/// <returns>200 or a 400</returns>
+		/// <remarks>
+		/// 
+		/// Body requres the property ID
+		///
+		/// </remarks>
+		/// <response code="200"> Good </response>
+		/// <response code="400"> Bad</response>
+		[Authorize]
 		[HttpPost("Rent", Name = "RentProperty")]
-        public IActionResult RentProperty(int Id)
-        {
-            try
+		public IActionResult RentProperty(int Id)
+		{
+			try
 			{
-                _propertyManagerService.ListForRent(Id);
+				_propertyManagerService.ListForRent(Id);
 				return Ok("Proprty " + Id + " has been listed for rent");
 			}
 			catch(Exception ex)
 			{
 				return BadRequest(ex.Message);
 			}
-        }
+		}
 
 		/// <summary>
 		/// ApproveSale
@@ -226,7 +227,7 @@ namespace Backend.Controllers
 		/// </remarks>
 		/// <response code="200"> Good</response>
 		/// <response code="400"> Bad</response>
-		//[Authorize]
+		[Authorize]
 		[HttpPut("ApproveSale", Name = "ApproveSale")]
 		public IActionResult ApprovePropertySale([FromBody] SaleApprovalDto saleApprovalDto)
 		{
@@ -260,7 +261,7 @@ namespace Backend.Controllers
 		/// </remarks>
 		/// <response code="200"> True or false, true for success, false if unsuccess </response>
 		/// <response code="400"> Something bad happened </response>
-		//[Authorize]
+		[Authorize]
 		[HttpPut("ApproveRental", Name = "ApproveRental")]
 		public IActionResult ApprovePropertyRental([FromBody] RentalApprovalDto rentalApprovalDto)
 		{
@@ -291,21 +292,22 @@ namespace Backend.Controllers
 		/// <response code="400"> 
 		/// Will return the error
 		/// </response>
-		//[Authorize]
-		[HttpGet("Properties", Name ="GetProperties")]
+		[Authorize]
+		[HttpGet("Properties", Name = "GetProperties")]
 		public IActionResult GetProperties(int PageNumber, int PageSize, long? Id, long? OwnerId, int? Capacity)
 		{
-            try
-            {
-                List<Property> properties = _propertyManagerService.GetProperties(PageNumber, PageSize, Id, OwnerId, Capacity);
-                return Ok(properties);
-            } catch(Exception ex)
-            {
-                return BadRequest($"{ex.Message}");
-            }
+			try
+			{
+				List<Property> properties = _propertyManagerService.GetProperties(PageNumber, PageSize, Id, OwnerId, Capacity);
+				return Ok(properties);
+			}
+			catch(Exception ex)
+			{
+				return BadRequest($"{ex.Message}");
+			}
 		}
 
-        /// <summary>
+		/// <summary>
 		/// Used to get sale contracts
 		/// </summary>
 		/// <returns>Returns sale contracts according to filter</returns>
@@ -320,18 +322,19 @@ namespace Backend.Controllers
 		/// <response code="400"> 
 		/// Will return the error
 		/// </response>
-		//[Authorize]
-		[HttpGet("SaleContracts", Name ="GetSaleContracts")]
+		[Authorize]
+		[HttpGet("SaleContracts", Name = "GetSaleContracts")]
 		public IActionResult GetSaleContracts(int PageNumber, int PageSize, long? Id, long? OwnerId, int? Capacity)
 		{
-            try
-            {
-                List<SaleContract> saleContracts = _propertyManagerService.GetSaleContracts(PageNumber, PageSize, Id, OwnerId, Capacity);
-                return Ok(saleContracts);
-            } catch(Exception ex)
-            {
-                return BadRequest($"{ex.Message}");
-            }
+			try
+			{
+				List<SaleContract> saleContracts = _propertyManagerService.GetSaleContracts(PageNumber, PageSize, Id, OwnerId, Capacity);
+				return Ok(saleContracts);
+			}
+			catch(Exception ex)
+			{
+				return BadRequest($"{ex.Message}");
+			}
 		}
 
 		/// <summary>
@@ -349,7 +352,7 @@ namespace Backend.Controllers
 		/// <response code="400"> 
 		/// Will return the error
 		/// </response>
-		//[Authorize]
+		[Authorize]
 		[HttpGet("RentalContracts", Name = "GetRentalContracts")]
 		public IActionResult GetRentalContracts(int PageNumber, int PageSize, long? Id, long? PropertyId, int? Capacity)
 
@@ -377,7 +380,7 @@ namespace Backend.Controllers
 		/// </response>
 		/// <response code="400"> 
 		/// </response>
-		//[Authorize]
+		[Authorize]
 		[HttpPost("Reset", Name = "Reset")]
 		public IActionResult Reset([FromBody] object bodyInfo)
 		{
@@ -407,18 +410,19 @@ namespace Backend.Controllers
 		/// <response code="400"> 
 		/// Will return the error
 		/// </response>
-		//[Authorize]
-		[HttpPost("Properties/Owners", Name ="GetPropertiesByOwners")]
+		[Authorize]
+		[HttpPost("Properties/Owners", Name = "GetPropertiesByOwners")]
 		public IActionResult GetPropertiesByOwners(long[] ownerIds)
 		{
-            try
-            {
-                List<PropertySummary> properties = _propertyManagerService.GetPropertiesByOwners(ownerIds);
-                return Ok(properties);
-            } catch(Exception ex)
-            {
-                return BadRequest($"{ex.Message}");
-            }
+			try
+			{
+				List<PropertySummary> properties = _propertyManagerService.GetPropertiesByOwners(ownerIds);
+				return Ok(properties);
+			}
+			catch(Exception ex)
+			{
+				return BadRequest($"{ex.Message}");
+			}
 		}
 
 		/// <summary>
@@ -436,18 +440,19 @@ namespace Backend.Controllers
 		/// <response code="400"> 
 		/// Will return the error
 		/// </response>
-		//[Authorize]
-		[HttpPost("dailyUpdate", Name ="DeathTransfer")]
+		[Authorize]
+		[HttpPost("dailyUpdate", Name = "DeathTransfer")]
 		public IActionResult DeathTransfer(DailyUpdateModel dailyUpdateModel)
 		{
-            try
-            {
+			try
+			{
 				_propertyManagerService.DailyUpdate(dailyUpdateModel.deaths);
-                return Ok("Death transfers completed succesfully");
-            } catch(Exception ex)
-            {
-                return BadRequest($"{ex.Message}");
-            }
+				return Ok("Death transfers completed succesfully");
+			}
+			catch(Exception ex)
+			{
+				return BadRequest($"{ex.Message}");
+			}
 		}
 	}
 }
